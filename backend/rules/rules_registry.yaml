@@ -1,0 +1,262 @@
+# PHAROS Rules Registry
+# Each rule is a deterministic evaluator. AI NEVER determines compliance.
+# Every rule maps to a specific clause in a specific standard.
+# Target: 20+ coded rules across 5 regulatory bodies.
+#
+# Severity levels:
+#   critical: Directly enforceable with legal penalties (e.g., FCC enforcement)
+#   high: Widely adopted international consensus (IADC, ISO)
+#   medium: Recommended guidelines with regulatory implications
+#   low: Best-practice recommendations
+
+rules:
+
+  # ─────────────────────────────────────────────────────
+  # FCC — Federal Communications Commission
+  # Authority: FCC 47 CFR Part 25 (US-licensed satellites)
+  # ─────────────────────────────────────────────────────
+
+  - id: FCC-DEORBIT-01
+    standard: "FCC 47 CFR Part 25.114(d)(14)"
+    body: "FCC"
+    title: "Post-Mission Orbital Lifetime (5-year rule)"
+    description: >
+      LEO satellites must deorbit within 5 years of mission end.
+      Adopted September 2022, effective September 2024 for new applications.
+      Reduced from the previous 25-year guideline. Enforceable by FCC
+      with fines up to $100,000 per day per violation.
+    threshold:
+      max_years: 5
+    evaluator: "fcc.check_deorbit_lifetime"
+    severity: "critical"
+    applies_to: ["LEO"]
+    adopted: "2022-09-29"
+    effective: "2024-09-29"
+
+  - id: FCC-DEORBIT-02
+    standard: "FCC 47 CFR Part 25.114(d)(14)"
+    body: "FCC"
+    title: "Casualty Risk Assessment"
+    description: >
+      Controlled reentry required if human casualty risk from uncontrolled
+      reentry debris exceeds 1 in 10,000 (E(c) > 1×10⁻⁴).
+      This risk assessment is required in satellite license applications.
+    threshold:
+      max_casualty_risk: 0.0001
+    evaluator: "fcc.check_casualty_risk"
+    severity: "critical"
+    applies_to: ["LEO", "MEO"]
+
+  - id: FCC-LEO-01
+    standard: "FCC 47 CFR Part 25.114(d)(14)"
+    body: "FCC"
+    title: "LEO Classification"
+    description: >
+      Informational rule: confirms whether the satellite is in LEO
+      (below 2000 km altitude), which determines applicability of
+      FCC post-mission disposal requirements.
+    threshold:
+      max_altitude_km: 2000
+    evaluator: "fcc.check_leo_orbit_altitude"
+    severity: "medium"
+    applies_to: ["ALL"]
+
+  # ─────────────────────────────────────────────────────
+  # IADC — Inter-Agency Space Debris Coordination Committee
+  # Authority: IADC-02-01 Rev 3 (2021)
+  # ─────────────────────────────────────────────────────
+
+  - id: IADC-LIFE-01
+    standard: "IADC-02-01 Rev 3, Section 5.3.2"
+    body: "IADC"
+    title: "25-Year Orbital Lifetime Limit"
+    description: >
+      Post-mission orbital lifetime in LEO should not exceed 25 years.
+      This is the foundational IADC guideline, adopted by all 13 IADC
+      member agencies. Not legally binding, but widely adopted through
+      national regulations. Note: FCC-DEORBIT-01 (5 years) is stricter
+      for US-licensed operators.
+    threshold:
+      max_years: 25
+    evaluator: "iadc.check_orbital_lifetime"
+    severity: "high"
+    applies_to: ["LEO"]
+
+  - id: IADC-PASS-01
+    standard: "IADC-02-01 Rev 3, Section 5.2.3"
+    body: "IADC"
+    title: "Passivation Requirement"
+    description: >
+      Residual energy sources (propellant, pressurized tanks, batteries)
+      must be depleted at end of operational mission to prevent on-orbit
+      explosions that generate debris clouds. Historical failures to
+      passivate caused some of the largest debris-generating events.
+    evaluator: "iadc.check_passivation"
+    severity: "high"
+    applies_to: ["ALL"]
+
+  - id: IADC-COLL-01
+    standard: "IADC-02-01 Rev 3, Section 5.3.1"
+    body: "IADC"
+    title: "Collision Probability During Disposal"
+    description: >
+      Probability of accidental collision during disposal maneuver should
+      be less than 0.001 (1 in 1,000). The disposal trajectory must be
+      planned to minimize crossing of high-density orbital shells.
+    threshold:
+      max_probability: 0.001
+    evaluator: "iadc.check_disposal_collision_probability"
+    severity: "high"
+    applies_to: ["LEO"]
+
+  - id: IADC-REENTRY-01
+    standard: "IADC-02-01 Rev 3, Section 5.4"
+    body: "IADC"
+    title: "Controlled Reentry Target Zone"
+    description: >
+      Controlled reentries should target uninhabited ocean areas
+      (e.g., South Pacific Oceanic Uninhabited Area — Point Nemo at
+      48°52.6′S 123°23.6′W). Required when uncontrolled reentry
+      casualty risk exceeds thresholds.
+    evaluator: "iadc.check_controlled_reentry_accuracy"
+    severity: "medium"
+    applies_to: ["LEO"]
+
+  # ─────────────────────────────────────────────────────
+  # ISO — International Organization for Standardization
+  # Authority: ISO 24113:2019
+  # ─────────────────────────────────────────────────────
+
+  - id: ISO-ORBIT-01
+    standard: "ISO 24113:2019, Section 6.2.2"
+    body: "ISO"
+    title: "Protected Region A (LEO)"
+    description: >
+      Spacecraft must not remain in the LEO protected orbital region
+      (spherical shell up to 2000 km altitude) for more than 25 years
+      after end of operational mission. ISO 24113 defines Protected
+      Region A and establishes international requirements.
+    threshold:
+      max_altitude_km: 2000
+      max_years: 25
+    evaluator: "iso24113.check_leo_protected_region"
+    severity: "high"
+    applies_to: ["LEO"]
+
+  - id: ISO-ORBIT-02
+    standard: "ISO 24113:2019, Section 6.2.3"
+    body: "ISO"
+    title: "Protected Region B (GEO)"
+    description: >
+      GEO satellites must be disposed to a graveyard orbit at least
+      200 km above the upper boundary of the GEO protected region.
+      GEO belt is defined as ±200 km around 35,786 km altitude.
+      Minimum graveyard altitude: ~36,186 km.
+    threshold:
+      min_graveyard_km_above_geo: 200
+    evaluator: "iso24113.check_geo_disposal"
+    severity: "critical"
+    applies_to: ["GEO"]
+
+  - id: ISO-DEBRIS-01
+    standard: "ISO 24113:2019, Section 6.3"
+    body: "ISO"
+    title: "No Intentional Debris Release in Protected Regions"
+    description: >
+      Operations in protected orbital regions shall not release any
+      objects or create debris intentionally. Applies to all operational
+      phases including deployment, normal operations, and disposal.
+    evaluator: "iso24113.check_debris_generation_limit"
+    severity: "high"
+    applies_to: ["LEO", "GEO"]
+
+  # ─────────────────────────────────────────────────────
+  # ESA — European Space Agency Zero Debris Charter
+  # Authority: ESA Zero Debris Charter (November 2023)
+  # ─────────────────────────────────────────────────────
+
+  - id: ESA-ZD-01
+    standard: "ESA Zero Debris Charter, Commitment 2"
+    body: "ESA"
+    title: "Near-Zero Debris Creation — No Intentional Release"
+    description: >
+      ESA Zero Debris Charter Commitment 2: no intentional release of
+      debris in orbit. Unlike IADC/ISO which focus on protected regions,
+      this applies to ALL orbital altitudes. Target: near-zero debris
+      creation across all orbital regimes by 2030.
+      Adopted at ESA Space Summit, November 2023.
+    evaluator: "esa_zero_debris.check_no_intentional_release"
+    severity: "critical"
+    applies_to: ["ALL"]
+
+  - id: ESA-ZD-02
+    standard: "ESA Zero Debris Charter, Commitment 3"
+    body: "ESA"
+    title: "Post-Mission Disposal Probability ≥ 90%"
+    description: >
+      ESA Zero Debris Charter Commitment 3: probability of successful
+      post-mission disposal must be at least 0.9 (90%). This requires
+      demonstrated reliability analysis including propulsion redundancy,
+      failure mode analysis, and disposal plan robustness.
+    threshold:
+      min_disposal_probability: 0.9
+    evaluator: "esa_zero_debris.check_disposal_probability"
+    severity: "high"
+    applies_to: ["ALL"]
+
+  - id: ESA-ZD-03
+    standard: "ESA Zero Debris Charter, Commitment 4"
+    body: "ESA"
+    title: "Debris-Free Operations"
+    description: >
+      ESA Zero Debris Charter Commitment 4: operational missions should
+      be debris-free, including collision avoidance capability and
+      space situational awareness (SSA) data sharing.
+    evaluator: "esa_zero_debris.check_debris_free_operations"
+    severity: "medium"
+    applies_to: ["ALL"]
+
+  # ─────────────────────────────────────────────────────
+  # COPUOS — UN Committee on the Peaceful Uses of Outer Space
+  # Authority: UN COPUOS LTS Guidelines (A/74/20, 2019)
+  # ─────────────────────────────────────────────────────
+
+  - id: COPUOS-REG-01
+    standard: "UN COPUOS LTS Guideline B.1"
+    body: "COPUOS"
+    title: "Registration Convention Compliance"
+    description: >
+      Space objects must be registered with the UN Registry of Objects
+      Launched into Outer Space (maintained by UNOOSA) per the 1975
+      Registration Convention. Launching states are legally obligated
+      to register and furnish data to the UN Secretary-General.
+      Non-registration constitutes a violation of international law.
+    evaluator: "copuos.check_registration"
+    severity: "medium"
+    applies_to: ["ALL"]
+
+  - id: COPUOS-COORD-01
+    standard: "UN COPUOS LTS Guideline B.2"
+    body: "COPUOS"
+    title: "Orbital Data Sharing and Conjunction Assessment"
+    description: >
+      Operators should share orbital element data publicly and coordinate
+      conjunction assessments with space traffic management providers.
+      Recommended data sources: US Space-Track.org, EU Space Surveillance
+      and Tracking (EU SST), commercial SSA providers.
+    evaluator: "copuos.check_data_sharing"
+    severity: "medium"
+    applies_to: ["ALL"]
+
+  - id: COPUOS-NOTIF-01
+    standard: "UN COPUOS LTS Guideline C.1"
+    body: "COPUOS"
+    title: "Maneuver Notification"
+    description: >
+      Operators should notify other operators and space traffic management
+      providers before executing maneuvers that would significantly alter
+      conjunction assessment predictions. Best practice: minimum 24-hour
+      advance notice for large maneuvers.
+    evaluator: "copuos.check_maneuver_notification"
+    severity: "low"
+    applies_to: ["ALL"]

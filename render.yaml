@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: pharos-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt && python scripts/parse_standards.py && python scripts/build_index.py
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: WATSONX_API_KEY
+        sync: false
+      - key: WATSONX_PROJECT_ID
+        sync: false
+      - key: WATSONX_URL
+        value: https://us-south.ml.cloud.ibm.com
+      - key: ENVIRONMENT
+        value: production
+      - key: CORS_ORIGINS
+        value: https://pharos.vercel.app,http://localhost:3000
+      - key: LOG_LEVEL
+        value: INFO
+    healthCheckPath: /api/health
+    autoDeploy: true
+    plan: free
