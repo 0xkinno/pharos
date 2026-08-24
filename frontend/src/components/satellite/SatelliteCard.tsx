@@ -3,155 +3,109 @@
 import Link from 'next/link'
 import { ComplianceGauge, StatusBadge, DataValue } from '@/components/ui'
 import type { DemoSatelliteSummary } from '@/lib/types'
+import { ArrowUpRight } from 'lucide-react'
 
 interface SatelliteCardProps {
   satellite: DemoSatelliteSummary
 }
 
 export default function SatelliteCard({ satellite: sat }: SatelliteCardProps) {
-  const passedWidth = (sat.rules_passed / Math.max(sat.rules_passed + sat.rules_flagged + sat.rules_failed, 1)) * 100
-  const flaggedWidth = (sat.rules_flagged / Math.max(sat.rules_passed + sat.rules_flagged + sat.rules_failed, 1)) * 100
-  const failedWidth = (sat.rules_failed / Math.max(sat.rules_passed + sat.rules_flagged + sat.rules_failed, 1)) * 100
+  const totalRules = Math.max(sat.rules_passed + sat.rules_flagged + sat.rules_failed, 1)
+  const passedWidth = (sat.rules_passed / totalRules) * 100
+  const flaggedWidth = (sat.rules_flagged / totalRules) * 100
+  const failedWidth = (sat.rules_failed / totalRules) * 100
 
   return (
     <Link
       href={`/satellite/${sat.norad_cat_id}`}
-      style={{ textDecoration: 'none' }}
+      className="group block text-decoration-none h-full"
     >
-      <div
-        className="pharos-card pharos-card-glow"
-        style={{
-          padding: 20,
-          cursor: 'pointer',
-          transition: 'border-color 150ms, transform 150ms',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 14,
-          height: '100%',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-2px)'
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'translateY(0)'
-        }}
-      >
-        {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
-          <div>
-            <div
-              style={{
-                fontSize: 14,
-                fontWeight: 600,
-                color: 'var(--text-primary)',
-                marginBottom: 3,
-                lineHeight: 1.3,
-              }}
-            >
-              {sat.object_name}
-            </div>
-            <div
-              style={{
-                fontSize: 11,
-                color: 'var(--text-tertiary)',
-                fontFamily: 'IBM Plex Mono, monospace',
-              }}
-            >
-              NORAD {sat.norad_cat_id} · {sat.orbit_type}
-            </div>
-          </div>
-          <ComplianceGauge score={sat.compliance_score} size={56} />
-        </div>
-
-        {/* Altitude */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: 8,
-          }}
-        >
-          <div>
-            <div style={{ fontSize: 10, color: 'var(--text-tertiary)', marginBottom: 2, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Altitude
-            </div>
-            <DataValue value={Math.round(sat.mean_altitude_km)} unit="km" />
-          </div>
-          <div>
-            <div style={{ fontSize: 10, color: 'var(--text-tertiary)', marginBottom: 2, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Est. Lifetime
-            </div>
-            <DataValue
-              value={sat.estimated_orbital_lifetime_years >= 999 ? '∞' : sat.estimated_orbital_lifetime_years.toFixed(1)}
-              unit={sat.estimated_orbital_lifetime_years < 999 ? 'yr' : undefined}
-            />
-          </div>
-        </div>
-
-        {/* Rule bar */}
+      <div className="pharos-card pharos-card-hoverable p-5 flex flex-col justify-between h-full relative border border-border-subtle hover:border-border-hover transition-all duration-200">
         <div>
-          <div
-            style={{
-              display: 'flex',
-              height: 4,
-              borderRadius: 2,
-              overflow: 'hidden',
-              backgroundColor: 'var(--bg-tertiary)',
-              gap: 1,
-            }}
-          >
-            {passedWidth > 0 && (
-              <div
-                style={{
-                  width: `${passedWidth}%`,
-                  backgroundColor: 'var(--status-pass)',
-                  borderRadius: '2px 0 0 2px',
-                }}
-              />
-            )}
-            {flaggedWidth > 0 && (
-              <div
-                style={{
-                  width: `${flaggedWidth}%`,
-                  backgroundColor: 'var(--status-flag)',
-                }}
-              />
-            )}
-            {failedWidth > 0 && (
-              <div
-                style={{
-                  width: `${failedWidth}%`,
-                  backgroundColor: 'var(--status-fail)',
-                  borderRadius: '0 2px 2px 0',
-                }}
-              />
-            )}
+          {/* Header Row: Satellite Name, NORAD ID, and Mini Score Gauge */}
+          <div className="flex items-start justify-between gap-3 mb-4">
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2 mb-1">
+                <h3 className="font-sans font-bold text-sm text-text-primary truncate group-hover:text-accent-primary transition-colors">
+                  {sat.object_name}
+                </h3>
+                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-bg-elevated text-text-secondary border border-border-subtle shrink-0">
+                  {sat.orbit_type}
+                </span>
+              </div>
+              <div className="text-xs font-mono text-text-tertiary">
+                NORAD {sat.norad_cat_id}
+              </div>
+            </div>
+            <ComplianceGauge score={sat.compliance_score} size={48} strokeWidth={5} />
           </div>
-          <div
-            style={{
-              display: 'flex',
-              gap: 12,
-              marginTop: 6,
-              fontSize: 11,
-              fontFamily: 'monospace',
-            }}
-          >
-            <span style={{ color: 'var(--status-pass)' }}>✓ {sat.rules_passed}</span>
-            <span style={{ color: 'var(--status-flag)' }}>⚠ {sat.rules_flagged}</span>
-            <span style={{ color: 'var(--status-fail)' }}>✗ {sat.rules_failed}</span>
+
+          {/* Description snippet if present */}
+          {sat.description && (
+            <p className="text-xs text-text-secondary line-clamp-2 mb-4 leading-relaxed font-normal">
+              {sat.description}
+            </p>
+          )}
+
+          {/* Data Grid: Altitude & Est. Lifetime */}
+          <div className="grid grid-cols-2 gap-3 py-3 border-y border-border-subtle mb-4">
+            <div>
+              <div className="text-[10px] font-mono text-text-tertiary uppercase tracking-wider mb-0.5">
+                Mean Altitude
+              </div>
+              <DataValue value={Math.round(sat.mean_altitude_km)} unit="km" />
+            </div>
+            <div>
+              <div className="text-[10px] font-mono text-text-tertiary uppercase tracking-wider mb-0.5">
+                Est. Lifetime
+              </div>
+              <DataValue
+                value={
+                  sat.estimated_orbital_lifetime_years >= 999
+                    ? '> 999'
+                    : sat.estimated_orbital_lifetime_years.toFixed(1)
+                }
+                unit={sat.estimated_orbital_lifetime_years < 999 ? 'yrs' : 'yrs'}
+              />
+            </div>
+          </div>
+
+          {/* Rule Breakdown Mini Progress Bar */}
+          <div className="space-y-1.5 mb-4">
+            <div className="flex h-1.5 w-full rounded-full overflow-hidden bg-bg-elevated">
+              {passedWidth > 0 && (
+                <div
+                  style={{ width: `${passedWidth}%` }}
+                  className="bg-status-pass transition-all duration-500"
+                />
+              )}
+              {flaggedWidth > 0 && (
+                <div
+                  style={{ width: `${flaggedWidth}%` }}
+                  className="bg-status-flag transition-all duration-500"
+                />
+              )}
+              {failedWidth > 0 && (
+                <div
+                  style={{ width: `${failedWidth}%` }}
+                  className="bg-status-fail transition-all duration-500"
+                />
+              )}
+            </div>
+            <div className="flex items-center justify-between text-[11px] font-mono">
+              <span className="text-status-pass">✓ {sat.rules_passed}</span>
+              <span className="text-status-flag">⚠ {sat.rules_flagged}</span>
+              <span className="text-status-fail">✗ {sat.rules_failed}</span>
+            </div>
           </div>
         </div>
 
-        {/* Status badge */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        {/* Footer: Status Badge and View Report link */}
+        <div className="flex items-center justify-between pt-2 border-t border-border-subtle">
           <StatusBadge status={sat.compliance_level} size="sm" />
-          <span
-            style={{
-              fontSize: 11,
-              color: 'var(--accent-blue)',
-            }}
-          >
-            View report →
+          <span className="text-xs font-mono text-accent-primary inline-flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform">
+            <span>Report</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
           </span>
         </div>
       </div>

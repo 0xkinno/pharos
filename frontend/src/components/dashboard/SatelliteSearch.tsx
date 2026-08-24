@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
+import { Search, Loader2 } from 'lucide-react'
 
 interface SatelliteSearchProps {
   onSearch: (query: string) => void
@@ -8,7 +9,13 @@ interface SatelliteSearchProps {
   placeholder?: string
 }
 
-export default function SatelliteSearch({ onSearch, loading = false, placeholder }: SatelliteSearchProps) {
+const QUICK_CHIPS = ['STARLINK', 'ISS', '25544', 'NOAA', 'COSMOS 2251']
+
+export default function SatelliteSearch({
+  onSearch,
+  loading = false,
+  placeholder = 'Search by satellite name or NORAD ID (e.g. STARLINK, 25544, ISS)...',
+}: SatelliteSearchProps) {
   const [query, setQuery] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -19,110 +26,63 @@ export default function SatelliteSearch({ onSearch, loading = false, placeholder
     }
   }
 
+  const handleChipClick = (chip: string) => {
+    setQuery(chip)
+    onSearch(chip)
+  }
+
   return (
-    <form onSubmit={handleSubmit}>
-      <div
-        style={{
-          display: 'flex',
-          gap: 10,
-          alignItems: 'center',
-        }}
-      >
-        <div
-          style={{
-            flex: 1,
-            position: 'relative',
-          }}
-        >
-          <span
-            style={{
-              position: 'absolute',
-              left: 14,
-              top: '50%',
-              transform: 'translateY(-50%)',
-              color: 'var(--text-tertiary)',
-              fontSize: 16,
-              pointerEvents: 'none',
-            }}
-          >
-            ⌕
-          </span>
+    <form onSubmit={handleSubmit} className="w-full space-y-3">
+      <div className="relative flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+        {/* Search Input Container */}
+        <div className="relative flex-1">
+          <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-tertiary pointer-events-none">
+            {loading ? (
+              <Loader2 className="w-4 h-4 animate-spin text-accent-primary" />
+            ) : (
+              <Search className="w-4 h-4" />
+            )}
+          </div>
           <input
             ref={inputRef}
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder={placeholder || 'Search by satellite name or NORAD ID (e.g. STARLINK, 25544)'}
-            style={{
-              width: '100%',
-              padding: '12px 14px 12px 40px',
-              backgroundColor: 'var(--bg-secondary)',
-              border: '1px solid var(--border)',
-              borderRadius: 8,
-              fontSize: 14,
-              color: 'var(--text-primary)',
-              outline: 'none',
-              transition: 'border-color 150ms',
-              fontFamily: 'IBM Plex Sans, sans-serif',
-            }}
-            onFocus={(e) => {
-              e.target.style.borderColor = 'var(--accent-blue)'
-            }}
-            onBlur={(e) => {
-              e.target.style.borderColor = 'var(--border)'
-            }}
+            placeholder={placeholder}
+            className="w-full pl-10 pr-4 py-3 bg-bg-surface border border-border-subtle hover:border-border-hover focus:border-accent-primary rounded-xl text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none transition-all duration-200"
           />
         </div>
 
+        {/* Submit Button */}
         <button
           type="submit"
           disabled={loading || !query.trim()}
-          style={{
-            padding: '12px 20px',
-            backgroundColor: loading ? 'var(--bg-tertiary)' : 'var(--accent-blue)',
-            color: loading ? 'var(--text-tertiary)' : '#fff',
-            border: 'none',
-            borderRadius: 8,
-            fontSize: 14,
-            fontWeight: 600,
-            cursor: loading || !query.trim() ? 'not-allowed' : 'pointer',
-            transition: 'all 150ms',
-            whiteSpace: 'nowrap',
-          }}
+          className="btn-primary text-xs py-3 px-6 rounded-xl font-semibold disabled:opacity-40 disabled:cursor-not-allowed transition-all shrink-0"
         >
-          {loading ? 'Searching…' : 'Check Compliance'}
+          {loading ? (
+            <span className="flex items-center gap-2">
+              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              <span>Querying...</span>
+            </span>
+          ) : (
+            'Check Compliance'
+          )}
         </button>
       </div>
 
-      <div style={{ marginTop: 10, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-        <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>Try:</span>
-        {['STARLINK', 'ISS', '25544', 'NOAA', 'COSMOS 2251'].map((q) => (
+      {/* Quick Access Chips */}
+      <div className="flex items-center gap-2 flex-wrap pt-1">
+        <span className="text-[11px] font-mono text-text-tertiary tracking-wide uppercase">
+          Quick Access:
+        </span>
+        {QUICK_CHIPS.map((chip) => (
           <button
-            key={q}
+            key={chip}
             type="button"
-            onClick={() => {
-              setQuery(q)
-              onSearch(q)
-            }}
-            style={{
-              padding: '2px 8px',
-              backgroundColor: 'var(--bg-tertiary)',
-              border: '1px solid var(--border)',
-              borderRadius: 4,
-              fontSize: 11,
-              color: 'var(--text-secondary)',
-              cursor: 'pointer',
-              fontFamily: 'monospace',
-              transition: 'border-color 150ms',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = 'var(--accent-blue)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'var(--border)'
-            }}
+            onClick={() => handleChipClick(chip)}
+            className="px-2.5 py-1 rounded-full text-xs font-mono bg-bg-elevated/80 border border-border-subtle hover:border-accent-primary text-text-secondary hover:text-text-primary transition-all duration-150"
           >
-            {q}
+            {chip}
           </button>
         ))}
       </div>

@@ -1,396 +1,349 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 import StarField from '@/components/globe/StarField'
 import Footer from '@/components/layout/Footer'
 import Navbar from '@/components/layout/Navbar'
+import { NumberCounter } from '@/components/ui'
+import { ArrowRight, ShieldCheck, Cpu, Database, FileText, CheckCircle2, ChevronRight } from 'lucide-react'
 
 const HOW_IT_WORKS = [
   {
     step: '01',
     title: 'Search Any Satellite',
-    desc: 'Enter a satellite name or NORAD catalog ID. Real-time orbital data is fetched from CelesTrak\'s public GP API.',
+    desc: "Enter a satellite name or NORAD catalog ID. Real-time orbital data is fetched instantly from CelesTrak's public GP API.",
   },
   {
     step: '02',
     title: 'SGP4 Propagation',
-    desc: 'The python-sgp4 library (Vallado et al.) propagates the orbital elements to compute current position and velocity.',
+    desc: 'The python-sgp4 library propagates the orbital elements to compute exact instantaneous position and velocity vectors.',
   },
   {
     step: '03',
     title: 'Lifetime Estimation',
-    desc: 'A King-Hele atmospheric decay model estimates how long the satellite will remain in orbit before natural reentry.',
+    desc: 'A King-Hele atmospheric decay model estimates how long the satellite will remain in orbit before natural atmospheric reentry.',
   },
   {
     step: '04',
-    title: 'Rule Evaluation',
-    desc: '20 coded rules from 5 regulatory bodies (FCC, IADC, ISO, ESA, COPUOS) are evaluated deterministically. AI never decides compliance.',
+    title: 'Deterministic Rules',
+    desc: '20 coded rules from 5 regulatory bodies (FCC, IADC, ISO, ESA, COPUOS) are evaluated deterministically. AI never guesses compliance.',
   },
   {
     step: '05',
     title: 'Granite Citations',
-    desc: 'Every flag retrieves the exact standard clause by semantic meaning using IBM Granite Embedding RAG over the parsed regulatory corpus.',
+    desc: 'Every flag retrieves the exact governing standard clause using IBM Granite Embedding RAG over the verified regulatory corpus.',
   },
   {
     step: '06',
-    title: 'AI Report',
-    desc: 'IBM Granite 3.1 8B Instruct generates a plain-language compliance assessment. Granite Guardian screens it for safety before serving.',
+    title: 'AI Report & Guardrails',
+    desc: 'IBM Granite 3.1 8B Instruct generates plain-language executive compliance reports, screened by Granite Guardian for safety.',
   },
 ]
 
 const IBM_TOOLS = [
-  { tool: 'IBM Bob', role: 'Primary development tool — authored the engine, tests, frontend' },
-  { tool: 'Granite 3.1 8B Instruct', role: 'Plain-language compliance report generation' },
-  { tool: 'Granite Embedding', role: 'RAG-based citation retrieval over regulatory corpus' },
-  { tool: 'Granite Guardian', role: 'Content safety screening for generated reports' },
-  { tool: 'Docling', role: 'Regulatory PDF parsing into indexable corpus' },
+  {
+    tool: 'IBM Bob',
+    role: 'Primary autonomous development agent — authored the core engine, mathematical models, verification test suite, and frontend.',
+    tag: 'Dev Agent',
+  },
+  {
+    tool: 'Granite 3.1 8B Instruct',
+    role: 'Plain-language regulatory compliance assessment and multi-jurisdiction risk analysis synthesis.',
+    tag: 'watsonx.ai',
+  },
+  {
+    tool: 'Granite Embedding',
+    role: 'Dense vector retrieval (RAG) mapping compliance flags to exact standard clauses in FCC, IADC, ISO, and ESA documents.',
+    tag: 'RAG Pipeline',
+  },
+  {
+    tool: 'Granite Guardian',
+    role: 'Safety & hallucination guardrail screening all AI-generated compliance assessments prior to serving.',
+    tag: 'Safety Guard',
+  },
+  {
+    tool: 'Docling',
+    role: 'High-fidelity parsing of complex regulatory PDF standards into structured, chunked, indexable knowledge bases.',
+    tag: 'Doc Parser',
+  },
 ]
 
 export default function LandingPage() {
-  const [scrolled, setScrolled] = useState(false)
-
-  useEffect(() => {
-    const handle = () => setScrolled(window.scrollY > 50)
-    window.addEventListener('scroll', handle)
-    return () => window.removeEventListener('scroll', handle)
-  }, [])
-
   return (
-    <div style={{ backgroundColor: 'var(--bg-primary)', minHeight: '100vh' }}>
-      <StarField starCount={180} />
+    <div className="bg-bg-base text-text-primary min-h-screen relative selection:bg-accent-primary/30">
+      <StarField starCount={140} />
       <Navbar />
 
-      <main style={{ position: 'relative', zIndex: 1 }}>
-        {/* ── HERO ── */}
+      <main className="relative z-10">
+        {/* ── HERO SECTION ── */}
         <section
+          className="min-h-screen flex flex-col items-center justify-center text-center px-4 sm:px-6 pt-24 pb-16 relative overflow-hidden"
           style={{
-            minHeight: '92vh',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            textAlign: 'center',
-            padding: '80px 24px 60px',
+            backgroundImage: `linear-gradient(
+              to bottom,
+              rgba(13, 13, 20, 0.72) 0%,
+              rgba(13, 13, 20, 0.88) 55%,
+              rgba(13, 13, 20, 1) 100%
+            ), url('/images/hero-bg.png')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
           }}
         >
-          {/* Tag */}
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              padding: '5px 14px',
-              borderRadius: 100,
-              border: '1px solid rgba(59, 130, 246, 0.3)',
-              backgroundColor: 'rgba(59, 130, 246, 0.06)',
-              marginBottom: 24,
-              fontSize: 12,
-              color: 'var(--accent-blue)',
-              letterSpacing: '0.06em',
-            }}
-          >
-            <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: 'var(--accent-blue)', display: 'inline-block' }} />
-            IBM AI Builders Challenge · August 2026 · Advance Space Exploration with AI
-          </div>
+          {/* Subtle Ambient Radial Glow */}
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-accent-primary/10 rounded-full blur-[120px] pointer-events-none" />
 
-          {/* Product name */}
-          <h1
-            style={{
-              fontSize: 'clamp(56px, 12vw, 112px)',
-              fontWeight: 800,
-              letterSpacing: '-0.03em',
-              lineHeight: 0.9,
-              color: 'var(--text-primary)',
-              marginBottom: 8,
-            }}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="max-w-4xl mx-auto flex flex-col items-center"
           >
-            PHAROS
-          </h1>
+            {/* Top Pill Badge */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-border-hover bg-bg-surface/80 backdrop-blur-md mb-8 text-xs text-text-secondary">
+              <span className="w-2 h-2 rounded-full bg-accent-cyan animate-pulse" />
+              <span>IBM AI Builders Challenge · August 2026</span>
+              <span className="text-text-tertiary">|</span>
+              <span className="text-accent-primary font-medium">Advance Space Exploration with AI</span>
+            </div>
 
-          <div
-            style={{
-              fontSize: 'clamp(13px, 2vw, 16px)',
-              color: 'var(--text-tertiary)',
-              fontFamily: 'IBM Plex Mono, monospace',
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              marginBottom: 28,
-            }}
-          >
-            Satellite Compliance Intelligence
-          </div>
+            {/* Massive Display Title */}
+            <h1 className="font-display font-extrabold text-6xl sm:text-7xl md:text-8xl lg:text-9xl tracking-tight leading-[0.9] text-text-primary mb-4 select-none">
+              PHAROS
+            </h1>
 
-          {/* Tagline */}
-          <p
-            style={{
-              maxWidth: 680,
-              fontSize: 'clamp(16px, 3vw, 20px)',
-              fontWeight: 300,
-              color: 'var(--text-secondary)',
-              lineHeight: 1.6,
-              marginBottom: 40,
-            }}
-          >
-            Check any satellite against every deorbit and debris-mitigation
-            standard that governs low Earth orbit,{' '}
-            <em style={{ color: 'var(--text-primary)', fontStyle: 'normal', fontWeight: 400 }}>
-              before regulators find violations.
-            </em>
-          </p>
+            {/* Tracked Subtitle */}
+            <div className="font-sans text-xs sm:text-sm font-semibold label-tracked text-text-secondary mb-8 text-accent-cyan">
+              SATELLITE COMPLIANCE INTELLIGENCE
+            </div>
 
-          {/* Stats */}
-          <div
-            style={{
-              display: 'flex',
-              gap: 32,
-              marginBottom: 44,
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-            }}
-          >
-            {[
-              { value: '5', label: 'Regulatory Bodies' },
-              { value: '20+', label: 'Coded Rules' },
-              { value: '12,000+', label: 'LEO Satellites' },
-            ].map(({ value, label }) => (
-              <div key={label} style={{ textAlign: 'center' }}>
-                <div
-                  style={{
-                    fontSize: 'clamp(28px, 5vw, 40px)',
-                    fontWeight: 700,
-                    color: 'var(--accent-blue)',
-                    fontFamily: 'IBM Plex Mono, monospace',
-                    letterSpacing: '-0.02em',
-                  }}
-                >
-                  {value}
+            {/* Editorial One-Liner */}
+            <p className="max-w-2xl text-base sm:text-lg md:text-xl text-text-secondary leading-relaxed font-normal mb-12">
+              Check any satellite against every deorbit and debris-mitigation standard
+              that governs low Earth orbit,{' '}
+              <span className="text-text-primary font-medium">
+                before regulators find violations.
+              </span>
+            </p>
+
+            {/* Three Stat Counters */}
+            <div className="grid grid-cols-3 gap-6 sm:gap-12 py-6 px-8 rounded-2xl glass-panel mb-10 w-full max-w-2xl">
+              <div className="text-center">
+                <div className="text-2xl sm:text-4xl font-bold font-mono text-accent-primary">
+                  <NumberCounter value="5" />
                 </div>
-                <div style={{ fontSize: 12, color: 'var(--text-tertiary)', marginTop: 2 }}>
-                  {label}
+                <div className="text-[11px] sm:text-xs text-text-tertiary uppercase tracking-wider mt-1 font-mono">
+                  Regulatory Bodies
                 </div>
               </div>
-            ))}
-          </div>
+              <div className="text-center border-x border-border-subtle">
+                <div className="text-2xl sm:text-4xl font-bold font-mono text-accent-cyan">
+                  <NumberCounter value="16" suffix="+" />
+                </div>
+                <div className="text-[11px] sm:text-xs text-text-tertiary uppercase tracking-wider mt-1 font-mono">
+                  Coded Rules
+                </div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl sm:text-4xl font-bold font-mono text-text-primary">
+                  <NumberCounter value="16,000" suffix="+" />
+                </div>
+                <div className="text-[11px] sm:text-xs text-text-tertiary uppercase tracking-wider mt-1 font-mono">
+                  LEO Satellites
+                </div>
+              </div>
+            </div>
 
-          {/* CTAs */}
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
-            <Link
-              href="/dashboard"
-              style={{
-                padding: '14px 28px',
-                backgroundColor: 'var(--accent-blue)',
-                color: '#fff',
-                borderRadius: 8,
-                fontSize: 15,
-                fontWeight: 600,
-                textDecoration: 'none',
-                transition: 'opacity 150ms, box-shadow 150ms',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = '0 0 24px rgba(59, 130, 246, 0.4)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = 'none'
-              }}
-            >
-              Check Compliance →
-            </Link>
-            <Link
-              href="/judges"
-              style={{
-                padding: '13px 28px',
-                backgroundColor: 'transparent',
-                color: 'var(--text-primary)',
-                border: '1px solid var(--border-bright)',
-                borderRadius: 8,
-                fontSize: 15,
-                fontWeight: 500,
-                textDecoration: 'none',
-                transition: 'border-color 150ms',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'var(--accent-blue)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'var(--border-bright)'
-              }}
-            >
-              For Judges
-            </Link>
+            {/* Hero CTAs */}
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <Link
+                href="/dashboard"
+                className="btn-primary text-sm py-3 px-7 rounded-xl font-semibold hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+              >
+                <span>Check Compliance</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/judges"
+                className="btn-secondary text-sm py-3 px-7 rounded-xl font-medium hover:border-accent-primary hover:text-text-primary transition-all duration-200"
+              >
+                For Judges
+              </Link>
+            </div>
+          </motion.div>
+        </section>
+
+        {/* ── PROBLEM / CONTEXT SECTION ── */}
+        <section className="max-w-container mx-auto px-4 sm:px-6 py-20">
+          <div className="max-w-4xl mx-auto space-y-12">
+            {/* Editorial Quote Card */}
+            <div className="pharos-card p-8 sm:p-10 border border-border-subtle bg-bg-surface/90 relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-1 h-full bg-status-fail" />
+              <p className="text-base sm:text-lg text-text-secondary leading-relaxed italic mb-6">
+                &ldquo;On February 10, 2009, Iridium 33 and Cosmos 2251 collided at 11.7 km/s,
+                generating over 2,000 trackable debris fragments. In September 2022, the FCC cut
+                the post-mission orbital lifetime limit from 25 years to{' '}
+                <strong className="text-status-fail not-italic font-semibold">5 years</strong>.
+                As of 2026, over 16,000 satellites share low Earth orbit.
+                <strong className="text-text-primary not-italic font-semibold">
+                  {' '}No open-source tool checks whether any of them comply. PHAROS does.
+                </strong>&rdquo;
+              </p>
+              <div className="flex items-center gap-2 text-xs font-mono text-text-tertiary">
+                <span className="w-1.5 h-1.5 rounded-full bg-status-flag" />
+                <span>FCC 47 CFR §25.114 · IADC-02-01 · ISO 24113:2019</span>
+              </div>
+            </div>
+
+            {/* 4 Stat Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {[
+                {
+                  stat: '$150K+',
+                  label: 'FCC Daily Fines',
+                  desc: 'Per violation per day under 47 CFR Part 25 enforcement rules.',
+                  color: 'text-status-fail',
+                },
+                {
+                  stat: '5 Years',
+                  label: 'FCC Deorbit Rule',
+                  desc: 'Mandatory post-mission disposal threshold in effect since 2024.',
+                  color: 'text-status-flag',
+                },
+                {
+                  stat: '30,000+',
+                  label: 'Tracked Debris',
+                  desc: 'Objects >10cm currently cataloged and monitored in low Earth orbit.',
+                  color: 'text-accent-cyan',
+                },
+                {
+                  stat: 'Free / OSS',
+                  label: 'Zero Vendor Lock',
+                  desc: 'Open-source compliance intelligence. No API key required for rules.',
+                  color: 'text-status-pass',
+                },
+              ].map(({ stat, label, desc, color }) => (
+                <div
+                  key={label}
+                  className="pharos-card pharos-card-hoverable p-6 flex flex-col justify-between"
+                >
+                  <div>
+                    <div className={`text-3xl font-bold font-mono ${color} mb-2`}>
+                      {stat}
+                    </div>
+                    <div className="text-xs font-mono font-semibold text-text-primary uppercase tracking-wider mb-2">
+                      {label}
+                    </div>
+                  </div>
+                  <p className="text-xs text-text-secondary leading-relaxed">
+                    {desc}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* ── PROBLEM ── */}
-        <section style={{ maxWidth: 900, margin: '0 auto', padding: '80px 24px' }}>
-          <div
-            style={{
-              textAlign: 'center',
-              marginBottom: 48,
-              padding: '32px 40px',
-              backgroundColor: 'var(--bg-secondary)',
-              border: '1px solid var(--border)',
-              borderRadius: 12,
-            }}
-          >
-            <p
-              style={{
-                fontSize: 'clamp(14px, 2.5vw, 18px)',
-                color: 'var(--text-secondary)',
-                lineHeight: 1.7,
-                fontStyle: 'italic',
-              }}
-            >
-              "On February 10, 2009, Iridium 33 and Cosmos 2251 collided at 11.7 km/s,
-              generating over 2,000 trackable debris fragments. Both spacecraft were
-              non-compliant with debris mitigation guidelines that existed at the time.
-              In September 2022, the FCC cut the acceptable post-mission orbital lifetime
-              from 25 years to <strong style={{ color: 'var(--status-fail)', fontStyle: 'normal' }}>5 years</strong>.
-              As of August 2026, over 12,000 active satellites share low Earth orbit.
-              <strong style={{ color: 'var(--text-primary)', fontStyle: 'normal' }}> No open-source tool checks whether any of them comply. PHAROS does.</strong>"
+        {/* ── HOW IT WORKS SECTION ── */}
+        <section className="max-w-container mx-auto px-4 sm:px-6 py-20">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-primary/10 border border-accent-primary/20 text-accent-primary text-xs font-mono uppercase tracking-wider mb-3">
+              System Architecture
+            </div>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-text-primary mb-3">
+              How PHAROS Operates
+            </h2>
+            <p className="text-sm text-text-secondary">
+              Deterministic engines detect. IBM Granite explains. AI never determines compliance verdicts.
             </p>
           </div>
 
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-              gap: 16,
-            }}
-          >
-            {[
-              { stat: '$150K+', desc: 'FCC fines per violation per day', color: 'var(--status-fail)' },
-              { stat: '5 Years', desc: 'FCC deorbit requirement (since 2024)', color: 'var(--status-flag)' },
-              { stat: '30,000+', desc: 'Tracked debris objects in orbit', color: 'var(--status-flag)' },
-              { stat: 'Free', desc: 'PHAROS is open-source, no account required', color: 'var(--status-pass)' },
-            ].map(({ stat, desc, color }) => (
-              <div
-                key={stat}
-                className="pharos-card"
-                style={{ padding: '20px 24px' }}
-              >
-                <div style={{ fontSize: 28, fontWeight: 700, color, fontFamily: 'monospace', marginBottom: 6 }}>
-                  {stat}
-                </div>
-                <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>{desc}</div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ── HOW IT WORKS ── */}
-        <section style={{ maxWidth: 1100, margin: '0 auto', padding: '80px 24px' }}>
-          <h2
-            style={{
-              fontSize: 32,
-              fontWeight: 700,
-              marginBottom: 8,
-              color: 'var(--text-primary)',
-            }}
-          >
-            How PHAROS Works
-          </h2>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: 40, fontSize: 15 }}>
-            The engine detects. IBM Granite explains. Compliance decisions are always deterministic.
-          </p>
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: 16,
-            }}
-          >
-            {HOW_IT_WORKS.map(({ step, title, desc }) => (
-              <div
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {HOW_IT_WORKS.map(({ step, title, desc }, index) => (
+              <motion.div
                 key={step}
-                className="pharos-card"
-                style={{ padding: '20px 22px' }}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.06 }}
+                className="pharos-card pharos-card-hoverable p-6 flex flex-col justify-between border border-border-subtle relative group"
               >
-                <div
-                  style={{
-                    fontSize: 11,
-                    fontFamily: 'monospace',
-                    color: 'var(--accent-blue)',
-                    marginBottom: 10,
-                    letterSpacing: '0.1em',
-                  }}
-                >
-                  STEP {step}
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="font-mono text-xs font-bold text-accent-primary px-2 py-0.5 rounded bg-accent-primary/10 border border-accent-primary/20">
+                      STEP {step}
+                    </span>
+                    <span className="text-text-tertiary text-xs font-mono group-hover:text-accent-cyan transition-colors">
+                      0{index + 1} / 06
+                    </span>
+                  </div>
+                  <h3 className="font-sans text-base font-semibold text-text-primary mb-2">
+                    {title}
+                  </h3>
+                  <p className="text-xs text-text-secondary leading-relaxed">
+                    {desc}
+                  </p>
                 </div>
-                <div
-                  style={{ fontSize: 15, fontWeight: 600, marginBottom: 8, color: 'var(--text-primary)' }}
-                >
-                  {title}
-                </div>
-                <div style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-                  {desc}
-                </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </section>
 
-        {/* ── IBM STACK ── */}
-        <section
-          style={{
-            maxWidth: 900,
-            margin: '0 auto',
-            padding: '80px 24px',
-          }}
-        >
-          <h2 style={{ fontSize: 32, fontWeight: 700, marginBottom: 8 }}>
-            IBM Technology Stack
-          </h2>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: 32, fontSize: 15 }}>
-            Every IBM tool is load-bearing. Delete the API — the compliance engine still runs.
-          </p>
-
-          <div className="pharos-card" style={{ overflow: 'hidden' }}>
-            {IBM_TOOLS.map(({ tool, role }, i) => (
-              <div
-                key={tool}
-                style={{
-                  padding: '16px 20px',
-                  borderBottom: i < IBM_TOOLS.length - 1 ? '1px solid var(--border)' : 'none',
-                  display: 'flex',
-                  gap: 16,
-                  alignItems: 'flex-start',
-                }}
+        {/* ── IBM STACK SECTION ── */}
+        <section className="max-w-container mx-auto px-4 sm:px-6 py-20">
+          <div className="max-w-4xl mx-auto">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-cyan/10 border border-accent-cyan/20 text-accent-cyan text-xs font-mono uppercase tracking-wider mb-3">
+                  IBM Watson &amp; Granite Integration
+                </div>
+                <h2 className="font-display text-3xl font-bold tracking-tight text-text-primary">
+                  Enterprise AI Stack
+                </h2>
+              </div>
+              <Link
+                href="/judges"
+                className="text-xs font-mono text-accent-primary hover:underline inline-flex items-center gap-1"
               >
+                <span>Full integration evidence</span>
+                <ChevronRight className="w-3 h-3" />
+              </Link>
+            </div>
+
+            <div className="pharos-card divide-y divide-border-subtle overflow-hidden">
+              {IBM_TOOLS.map(({ tool, role, tag }) => (
                 <div
-                  style={{
-                    width: 8,
-                    height: 8,
-                    borderRadius: '50%',
-                    backgroundColor: 'var(--accent-blue)',
-                    marginTop: 5,
-                    flexShrink: 0,
-                  }}
-                />
-                <div>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 2 }}>
-                    {tool}
-                  </div>
-                  <div style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
-                    {role}
+                  key={tool}
+                  className="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-bg-elevated/40 transition-colors"
+                >
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-accent-primary mt-1.5 shrink-0" />
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-sans font-bold text-sm text-text-primary">
+                          {tool}
+                        </span>
+                        <span className="text-[10px] font-mono text-accent-primary bg-accent-primary/10 px-2 py-0.5 rounded border border-accent-primary/20">
+                          {tag}
+                        </span>
+                      </div>
+                      <p className="text-xs text-text-secondary leading-relaxed">
+                        {role}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
 
-          <div style={{ marginTop: 20, textAlign: 'center' }}>
-            <Link
-              href="/judges"
-              style={{
-                fontSize: 13,
-                color: 'var(--accent-blue)',
-                textDecoration: 'none',
-              }}
-            >
-              Full IBM integration details with evidence and API-deletion behavior →
-            </Link>
+            <div className="mt-6 text-center">
+              <Link
+                href="/judges"
+                className="text-xs text-text-tertiary hover:text-accent-primary transition-colors font-mono"
+              >
+                Every tool is load-bearing. Delete the API — the deterministic engine still runs 100% →
+              </Link>
+            </div>
           </div>
         </section>
       </main>

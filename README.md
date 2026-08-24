@@ -1,3 +1,10 @@
+<div align="center">
+<img src="docs/screenshots/banner.png" alt="PHAROS Banner" width="900" />
+
+![Typing SVG](https://readme-typing-svg.demolab.com?font=IBM+Plex+Sans&weight=600&size=28&pause=1200&color=3B82F6&center=true&vCenter=true&width=700&lines=Satellite+Compliance+Intelligence;16+Rules+%C2%B7+5+Regulatory+Bodies;Check+Any+Satellite+in+Seconds;API-Deletion-Proof+Engine)
+
+</div>
+
 # PHAROS
 
 **PHAROS lets satellite operators check their spacecraft against every deorbit and debris-mitigation standard that governs low Earth orbit, before regulators find violations.**
@@ -18,19 +25,19 @@ Built for the **IBM AI Builders Challenge August 2026**, **Advance Space Explora
 
 ## The Problem
 
-Low Earth orbit is becoming critically congested. As of August 2026, CelesTrak tracks **16,393 active satellites** and over **30,000 pieces of catalogued debris — with the number growing every month**. Five major regulatory bodies — the FCC, IADC, ISO, ESA, and UN COPUOS — have issued binding rules and guidelines that every satellite operator must meet: dispose of satellites within 5 years (FCC), 25 years (IADC), passivate propulsion systems, demonstrate 90%+ disposal probability (ESA Zero Debris Charter), and register with the UN.
+Low Earth orbit is becoming critically congested. As of August 2026, CelesTrak tracks **16,393 active satellites** and over **30,000 pieces of catalogued debris, with the number growing every month**. Five major regulatory bodies (the FCC, IADC, ISO, ESA, and UN COPUOS) have issued binding rules and guidelines that every satellite operator must meet: dispose of satellites within 5 years (FCC), 25 years (IADC), passivate propulsion systems, demonstrate 90%+ disposal probability (ESA Zero Debris Charter), and register with the UN.
 
-The consequences of non-compliance are real and escalating. The FCC issued its first-ever orbital debris fine in 2023 ($150,000 against DISH Network) and actively enforces the 5-year LEO deorbit rule for new applications filed after September 2024. Launch providers increasingly require compliance documentation. Space insurance underwriters price premiums based on orbital risk. And beyond the commercial consequences, every non-compliant satellite is a potential debris generator that puts the entire commercial space ecosystem at risk of Kessler Syndrome — a cascade of collisions that could make certain orbital bands unusable for generations.
+The consequences of non-compliance are real and escalating. The FCC issued its first-ever orbital debris fine in 2023 ($150,000 against DISH Network) and actively enforces the 5-year LEO deorbit rule for new applications filed after September 2024. Launch providers increasingly require compliance documentation. Space insurance underwriters price premiums based on orbital risk. And beyond the commercial consequences, every non-compliant satellite is a potential debris generator that puts the entire commercial space ecosystem at risk of Kessler Syndrome, a cascade of collisions that could make certain orbital bands unusable for generations.
 
-Today, verifying compliance requires a satellite orbital analyst manually cross-referencing TLE data against multiple regulatory documents across five different standards bodies. Small operators — university CubeSat programs, New Space startups, emerging agencies — cannot afford dedicated compliance staff or six-figure commercial tools like Analytical Graphics AGI STK. **PHAROS changes this.**
+Today, verifying compliance requires a satellite orbital analyst manually cross-referencing TLE data against multiple regulatory documents across five different standards bodies. Small operators (university CubeSat programs, New Space startups, emerging agencies) cannot afford dedicated compliance staff or six-figure commercial tools like Analytical Graphics AGI STK. **PHAROS changes this.**
 
 ## The Solution
 
-PHAROS is a satellite orbital compliance intelligence platform. Give it any satellite's NORAD catalog ID. In seconds, it fetches live orbital data from CelesTrak, runs SGP4 propagation to get current orbital parameters, estimates natural atmospheric decay lifetime using the King-Hele model, and evaluates **16 compliance rules from 5 regulatory bodies** deterministically — producing a per-rule pass/fail/flag report with the exact standard clause cited from the committed regulatory corpus.
+PHAROS is a satellite orbital compliance intelligence platform. Give it any satellite's NORAD catalog ID. In seconds, it fetches live orbital data from CelesTrak, runs SGP4 propagation to get current orbital parameters, estimates natural atmospheric decay lifetime using the King-Hele model, and evaluates **16 compliance rules from 5 regulatory bodies** deterministically, producing a per-rule pass/fail/flag report with the exact standard clause cited from the committed regulatory corpus.
 
-The architecture follows a critical principle: **the compliance engine DETECTS; IBM Granite EXPLAINS.** AI never determines compliance — that is always deterministic, reproducible, and traceable to specific rule thresholds. IBM Granite generates the plain-language operator report and retrieves the exact regulatory citations. Granite Guardian screens every AI-generated report before it reaches the user. The result is a tool where IBM AI adds real value without introducing hallucination risk into compliance decisions.
+The architecture follows a critical principle: **the compliance engine DETECTS; IBM Granite EXPLAINS.** AI never determines compliance. That determination is always deterministic, reproducible, and traceable to specific rule thresholds. IBM Granite generates the plain-language operator report and retrieves the exact regulatory citations. Granite Guardian screens every AI-generated report before it reaches the user. The result is a tool where IBM AI adds real value without introducing hallucination risk into compliance decisions.
 
-PHAROS works without any API key. Delete every hosted API and the compliance engine still produces a full rule-by-rule pass/fail report with standard clause citations from the committed corpus. This is not a demo — it is a production-quality compliance pre-check tool.
+PHAROS works without any API key. Delete every hosted API and the compliance engine still produces a full rule-by-rule pass/fail report with standard clause citations from the committed corpus. This is not a demo. It is a production-quality compliance pre-check tool.
 
 ---
 
@@ -38,13 +45,13 @@ PHAROS works without any API key. Delete every hosted API and the compliance eng
 
 | To verify... | Go here |
 |---|---|
-| **Try it, zero setup** | [`/api/demo`](https://pharos-api.onrender.com/api/demo) — pre-computed results for 5 satellites |
-| **Claims are wired, not aspirational** | [IBM Stack section](#ibm-stack-what-is-actually-wired) — every row has a file path |
+| **Try it, zero setup** | [`/api/demo`](https://pharos-api.onrender.com/api/demo): pre-computed results for 5 satellites |
+| **Claims are wired, not aspirational** | [IBM Stack section](#ibm-stack-what-is-actually-wired): every row has a file path |
 | **Honesty, live** | [`/api/judges`](https://pharos-api.onrender.com/api/judges) transparency endpoint |
-| **CelesTrak is live** | [`/api/compliance/report/25544`](https://pharos-api.onrender.com/api/compliance/report/25544) — live ISS data |
-| **It reproduces** | [Build and Run](#build-and-run) — from scratch in 5 minutes |
+| **CelesTrak is live** | [`/api/compliance/report/25544`](https://pharos-api.onrender.com/api/compliance/report/25544): live ISS data |
+| **It reproduces** | [Build and Run](#build-and-run): from scratch in 5 minutes |
 | **136 tests pass** | `cd backend && python -m pytest tests/ -v` |
-| **API-deletion proof** | Remove watsonx credentials — engine still produces full report |
+| **API-deletion proof** | Remove watsonx credentials: engine still produces full report |
 
 ## Live Links
 
@@ -63,11 +70,11 @@ PHAROS works without any API key. Delete every hosted API and the compliance eng
 
 | Dashboard | Satellite Report |
 |---|---|
-| ![Dashboard — satellite search and compliance cards](docs/screenshots/dashboard.png) | ![Satellite Report — rule-by-rule results with citations](docs/screenshots/report.png) |
+| ![Dashboard: satellite search and compliance cards](docs/screenshots/dashboard.png) | ![Satellite Report: rule-by-rule results with citations](docs/screenshots/report.png) |
 
 | Standards Explorer | Judges Transparency |
 |---|---|
-| ![Standards Explorer — all 16 rules across 5 bodies](docs/screenshots/standards.png) | ![/judges — full IBM stack disclosure](docs/screenshots/judges.png) |
+| ![Standards Explorer: all 16 rules across 5 bodies](docs/screenshots/standards.png) | ![/judges: full IBM stack disclosure](docs/screenshots/judges.png) |
 
 > Screenshots taken from the live deployment. Run locally with `npm run dev` to see the interface.
 
@@ -76,7 +83,7 @@ PHAROS works without any API key. Delete every hosted API and the compliance eng
 ## How It Works
 
 1. **Search any satellite** by name or NORAD catalog number (16,000+ active satellites, 30,000+ debris)
-2. **Live orbital data is fetched** from CelesTrak's public GP API — no auth required
+2. **Live orbital data is fetched** from CelesTrak's public GP API, no auth required
 3. **SGP4 propagation** (python-sgp4, Vallado et al.) computes current orbital elements
 4. **Orbital lifetime estimation** predicts when natural atmospheric decay brings it below 50 km
 5. **16 coded rules** from FCC, IADC, ISO, ESA, and COPUOS are evaluated deterministically
@@ -87,15 +94,15 @@ PHAROS works without any API key. Delete every hosted API and the compliance eng
 
 ## PHAROS in One Loop
 
-Imagine you run a CubeSat program at a university. Your 3U satellite — mass 4 kg, 0.01 m²/kg area-to-mass ratio — is deployed at 580 km. You search PHAROS.
+Imagine you run a CubeSat program at a university. Your 3U satellite (mass 4 kg, 0.01 m²/kg area-to-mass ratio) is deployed at 580 km. You search PHAROS.
 
-PHAROS fetches your orbital parameters from CelesTrak. SGP4 propagates to today's epoch. The King-Hele atmospheric decay model integrates drag against the Jacchia-77 density profile: **estimated lifetime at 580 km — 23.7 years**. FCC rule FCC-DEORBIT-01 fires: `FLAG — estimated lifetime 23.7 yr exceeds FCC 5-year threshold but is under 25-year IADC guideline`. IADC-LIFE-01 fires: `PASS — 23.7 yr < 25-yr IADC threshold`. ESA-ZD-02 fires: `FLAG — disposal probability not provided, assumed below 0.9 threshold`.
+PHAROS fetches your orbital parameters from CelesTrak. SGP4 propagates to today's epoch. The King-Hele atmospheric decay model integrates drag against the Jacchia-77 density profile: **estimated lifetime at 580 km: 23.7 years**. FCC rule FCC-DEORBIT-01 fires: `FLAG: estimated lifetime 23.7 yr exceeds FCC 5-year threshold but is under 25-year IADC guideline`. IADC-LIFE-01 fires: `PASS: 23.7 yr < 25-yr IADC threshold`. ESA-ZD-02 fires: `FLAG: disposal probability not provided, assumed below 0.9 threshold`.
 
 Granite Embedding retrieves: *"FCC 47 CFR Part 25.114(d)(14): For NGSO space stations operating in LEO at or below 2000 km, the space station shall be disposed of within five (5) years following the end of the space station's mission."*
 
 The LLM generates: *"The satellite at 580 km presents a compliance risk under FCC 47 CFR Part 25.114(d)(14). With an estimated orbital lifetime of 23.7 years, the satellite significantly exceeds the FCC's 5-year post-mission disposal requirement that became effective for new applications after September 2024. Operators must either lower the deployment altitude below 450 km (where natural decay falls under 5 years) or demonstrate a propulsive deorbit capability..."*
 
-Compliance score: **71.4/100 — AT RISK.** You now know exactly what to fix before your FCC filing.
+Compliance score: **71.4/100, AT RISK.** You now know exactly what to fix before your FCC filing.
 
 ---
 
@@ -151,10 +158,10 @@ Every IBM tool below is load-bearing. Delete it and something measurably changes
 
 | IBM Tool | Role | Wired In | If API Deleted |
 |---|---|---|---|
-| **IBM Bob** | Entire build — authored compliance engine, all 16 evaluators, 136 tests, frontend, all docs, every architectural decision | This README | N/A — code exists |
-| **Granite Embedding** (`ibm/granite-embedding-278m-multilingual`) | RAG-based citation retrieval — finds the most semantically relevant regulatory clause for each flagged rule | [`app/ai/watsonx_embedding.py`](pharos/backend/app/ai/watsonx_embedding.py) | Hard-coded deterministic clause map (every rule ID → exact clause text). Citations still work. Never fabricated. |
-| **IBM Granite** (`ibm/granite-4-h-small` — confirmed live on US-South) | Plain-language 3-paragraph compliance report from deterministic engine output. PHAROS prefers `ibm/granite-3-1-8b-instruct`, auto-falls to `ibm/granite-4-h-small` if instruct tier unavailable. | [`app/services/report_generator.py`](pharos/backend/app/services/report_generator.py) | Structured text fallback built from compliance data. Engine still runs. Only AI prose is lost. |
-| **Granite Guardian** (`ibm/granite-guardian-3-8b` — confirmed live on US-South) | Every AI report is screened before serving using the real Guardian binary classifier (`No`=safe, `Yes`=unsafe). Unsafe content is withheld. | [`app/ai/watsonx_guardian.py`](pharos/backend/app/ai/watsonx_guardian.py) | Unscreened AI content is NOT served. Structured fallback (no AI) is always safe. |
+| **IBM Bob** | Entire build: authored compliance engine, all 16 evaluators, 136 tests, frontend, all docs, every architectural decision | This README | N/A, code exists |
+| **Granite Embedding** (`ibm/granite-embedding-278m-multilingual`) | RAG-based citation retrieval: finds the most semantically relevant regulatory clause for each flagged rule | [`app/ai/watsonx_embedding.py`](pharos/backend/app/ai/watsonx_embedding.py) | Hard-coded deterministic clause map (every rule ID to exact clause text). Citations still work. Never fabricated. |
+| **IBM Granite** (`ibm/granite-4-h-small`, confirmed live on US-South) | Plain-language 3-paragraph compliance report from deterministic engine output. PHAROS prefers `ibm/granite-3-1-8b-instruct`, auto-falls to `ibm/granite-4-h-small` if instruct tier unavailable. | [`app/services/report_generator.py`](pharos/backend/app/services/report_generator.py) | Structured text fallback built from compliance data. Engine still runs. Only AI prose is lost. |
+| **Granite Guardian** (`ibm/granite-guardian-3-8b`, confirmed live on US-South) | Every AI report is screened before serving using the real Guardian binary classifier (`No`=safe, `Yes`=unsafe). Unsafe content is withheld. | [`app/ai/watsonx_guardian.py`](pharos/backend/app/ai/watsonx_guardian.py) | Unscreened AI content is NOT served. Structured fallback (no AI) is always safe. |
 | **Docling** | Parse regulatory PDFs into indexable text for the RAG corpus | [`scripts/parse_standards.py`](pharos/backend/scripts/parse_standards.py) | Falls back to built-in standards text. Corpus is committed to repo. |
 
 > **Model note:** PHAROS auto-detects the best available IBM Granite model for the connected region. On US-South (`us-south.ml.cloud.ibm.com`) with WML attached, `ibm/granite-4-h-small` (IBM Granite) and `ibm/granite-guardian-3-8b` (Granite Guardian) are confirmed live. The `/api/judges` endpoint always reports the exact model currently active.
@@ -186,25 +193,25 @@ Every IBM tool below is load-bearing. Delete it and something measurably changes
 
 ## Target User
 
-**Primary:** Satellite operators at small-to-medium organizations — New Space startups, university CubeSat programs, emerging space agencies — who need to verify regulatory compliance without a dedicated orbital analyst.
+**Primary:** Satellite operators at small-to-medium organizations (New Space startups, university CubeSat programs, emerging space agencies) who need to verify regulatory compliance without a dedicated orbital analyst.
 
 **Secondary:** Space insurance underwriters assessing orbital risk. Launch providers verifying customer compliance before manifesting payloads. Regulators screening initial filings.
 
 **What they do today:** Manually cross-reference orbital parameters against multiple regulatory documents, or rely on expensive commercial tools (AGI STK, Analytical Graphics) with six-figure annual licenses.
 
-**What changes with PHAROS:** One search, one report, every standard checked, every finding cited. Minutes instead of hours. Free, open-source, API-deletion-proof.
+**What PHAROS changes:** One search, one report, every standard checked, every finding cited. Minutes instead of hours. Free, open-source, API-deletion-proof.
 
 ---
 
 ## Real-World Impact
 
-- **FCC 5-year rule** enforcement: active since September 2024 — new applications must comply
+- **FCC 5-year rule** enforcement: active since September 2024, new applications must comply
 - **$150,000 fine** issued to DISH Network in 2023 for orbital debris violation (first-ever)
 - **Launch license denials** for operators who cannot demonstrate compliance documentation
 - **Space insurance**: non-compliant orbital profiles attract premium surcharges
-- **16,393 active satellites** tracked by CelesTrak — all checkable by PHAROS
-- **10,969 Starlink satellites** alone — each with active deorbit requirements
-- **587 Cosmos-2251 debris fragments** — the 2009 collision demonstrating Kessler risk
+- **16,393 active satellites** tracked by CelesTrak, all checkable by PHAROS
+- **10,969 Starlink satellites** alone, each with active deorbit requirements
+- **587 Cosmos-2251 debris fragments**: the 2009 collision demonstrating Kessler risk
 
 ---
 
@@ -212,16 +219,16 @@ Every IBM tool below is load-bearing. Delete it and something measurably changes
 
 Bob (IBM's AI coding assistant) built every line of PHAROS. This is not an exaggeration.
 
-**Session 1 — Compliance Engine:**
+**Session 1: Compliance Engine:**
 Bob designed the rule evaluator pattern (each rule is a pure function returning a `RuleResult` with status, message, value, threshold, and standard clause). Bob authored all 16 evaluators across 5 regulatory bodies, the SGP4 orbital propagation service, the King-Hele atmospheric decay model (including diagnosing and fixing a unit mismatch in the formula), the compliance orchestrator, and the rules registry YAML.
 
-**Session 2 — AI Layer:**
+**Session 2: AI Layer:**
 Bob built the `WatsonxClient` with region-aware model auto-detection (discovering that EU-DE does not carry Granite Instruct and probing the catalog to select the best available model), the Granite Embedding RAG service with deterministic fallback, the report generator using the modern `/ml/v1/text/chat` API (diagnosing the deprecation of `/ml/v1/text/generation`), and the Guardian safety screening wrapper.
 
-**Session 3 — Frontend and Tests:**
+**Session 3: Frontend and Tests:**
 Bob designed and built the entire Next.js 14 frontend (5 pages, premium dark sci-fi theme, IBM Plex fonts, all components), the 136-test suite with full evaluator coverage, and diagnosed every bug: Windows UTF-8 encoding errors, `datetime.utcnow()` deprecation, `next.config.ts` incompatibility with Next.js 14, TypeScript `unknown` type errors in the judges page.
 
-**Session 4 — Integration and Verification:**
+**Session 4: Integration and Verification:**
 Bob ran live end-to-end tests confirming IBM AI generation (2,714-char compliance report for ISS), verified CelesTrak live data (16,393 active satellites, 10,969 Starlink), and built credential probe scripts that identified the exact API error (`no_associated_service_instance_error`) blocking US-South Granite access.
 
 ---
@@ -232,7 +239,7 @@ Bob ran live end-to-end tests confirming IBM AI generation (2,714-char complianc
 - **Not official compliance**: PHAROS is a pre-check tool, not a certification authority. Findings must be verified against official FCC/ITU guidance before filing.
 - **Passivation and collision data**: These rules require operator-provided mission data not available in public TLE records. PHAROS uses conservative assumptions and flags for operator review.
 - **Standards corpus**: Based on publicly available regulatory text. The full proprietary ISO 24113:2019 PDF requires purchase; PHAROS uses the publicly available summary and standard thresholds.
-- **IBM Granite on EU-DE**: The EU-DE region does not carry `ibm/granite-3-1-8b-instruct`. PHAROS uses `meta-llama/llama-3-3-70b-instruct` (the best available instruct model) on EU-DE. On US-South with a properly configured WML instance, Granite Instruct will be selected automatically.
+- **IBM Granite on EU-DE**: The EU-DE region does not carry `ibm/granite-3-1-8b-instruct`. PHAROS uses `meta-llama/llama-3-3-70b-instruct` (the best available instruct model) on EU-DE. On US-South with a properly configured WML instance, Granite Instruct is selected automatically.
 - **Accuracy**: TLE data has typical accuracy of ~1 km for LEO. Eccentric orbit lifetime estimates degrade at high eccentricity.
 
 ---
@@ -258,7 +265,7 @@ pip install -r requirements.txt
 python scripts/parse_standards.py
 python scripts/build_index.py
 
-# Configure watsonx.ai (optional — engine works without it)
+# Configure watsonx.ai (optional, engine works without it)
 cp .env.example .env
 # Edit .env with your WATSONX_API_KEY and WATSONX_PROJECT_ID
 
@@ -340,7 +347,7 @@ All tests are deterministic and run without any IBM API key.
 
 ## Selected Challenge Theme
 
-**Advance Space Exploration with AI.** PHAROS addresses how AI can make space operations safer and more accessible by automating regulatory compliance checking that currently requires specialized orbital expertise and expensive commercial tools. Every satellite operator — from a university CubeSat team to an emerging space agency — can now check their mission against every applicable regulation in seconds.
+**Advance Space Exploration with AI.** PHAROS addresses how AI can make space operations safer and more accessible by automating regulatory compliance checking that currently requires specialized orbital expertise and expensive commercial tools. Every satellite operator (from a university CubeSat team to an emerging space agency) can now check their mission against every applicable regulation in seconds.
 
 The compliance engine embodies responsible AI design: deterministic rule evaluation ensures reproducibility and auditability, while IBM Granite adds the human-readable explanations and semantic citation retrieval that make findings actionable. Granite Guardian ensures AI-generated content is screened before reaching operators.
 
@@ -348,7 +355,7 @@ The compliance engine embodies responsible AI design: deterministic rule evaluat
 
 ## License
 
-MIT — see [LICENSE](LICENSE)
+MIT. See [LICENSE](LICENSE)
 
 ---
 
