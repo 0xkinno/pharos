@@ -1,0 +1,9 @@
+# Dev/build-time dependencies — NOT installed on Render.
+# Used locally to rebuild the standards corpus (parse_standards.py, build_index.py).
+# The corpus output (standards/parsed/, standards/index/) is committed to the repo,
+# so these packages are never needed at runtime or on the deployment server.
+-r requirements.txt
+sentence-transformers>=3.1.0
+docling>=2.5.0
+numpy>=1.24.0,<2.0
+scipy>=1.11.0,<1.14

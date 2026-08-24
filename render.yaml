@@ -2,8 +2,9 @@ services:
   - type: web
     name: pharos-api
     runtime: python
+    pythonVersion: "3.11.9"
     rootDir: backend
-    buildCommand: pip install --upgrade pip && pip install -r requirements.txt && python scripts/parse_standards.py && python scripts/build_index.py
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: WATSONX_API_KEY
