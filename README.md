@@ -1,5 +1,3 @@
-</div>
-
 # PHAROS
 
 ![Typing SVG](https://readme-typing-svg.demolab.com?font=IBM+Plex+Sans&weight=600&size=28&pause=1200&color=3B82F6&center=true&vCenter=true&width=700&lines=Satellite+Compliance+Intelligence;16+Rules+%C2%B7+5+Regulatory+Bodies;Check+Any+Satellite+in+Seconds;API-Deletion-Proof+Engine)
@@ -16,6 +14,8 @@ Built for the **IBM AI Builders Challenge August 2026**, **Advance Space Explora
 
 <div align="center">
 <img src="docs/screenshots/banner.png" alt="PHAROS Banner" width="900" />
+
+</div>
 
 **PHAROS lets satellite operators check their spacecraft against every deorbit and debris-mitigation standard that governs low Earth orbit, before regulators find violations.**
 

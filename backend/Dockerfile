@@ -2,22 +2,18 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
+# Upgrade pip first so it resolves manylinux wheels correctly
+RUN pip install --upgrade pip --no-cache-dir
 
-# Copy requirements and install Python dependencies
+# Copy and install runtime dependencies only (no docling, no sentence-transformers,
+# no Rust/Fortran build tools required — all packages have pre-built wheels)
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
+# Copy application code (includes pre-built standards corpus in standards/)
 COPY . .
 
-# Build standards corpus on first run if not present
-RUN python scripts/parse_standards.py && python scripts/build_index.py || true
-
+# Expose default port; Render overrides via $PORT
 EXPOSE 8000
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
