@@ -45,10 +45,10 @@ PHAROS works without any API key. Delete every hosted API and the compliance eng
 
 | To verify... | Go here |
 |---|---|
-| **Try it, zero setup** | [`/api/demo`](https://pharos-api.onrender.com/api/demo): pre-computed results for 5 satellites |
+| **Try it, zero setup** | [`/api/demo`](https://pharos-ewn9.onrender.com/api/demo): pre-computed results for 5 satellites |
 | **Claims are wired, not aspirational** | [IBM Stack section](#ibm-stack-what-is-actually-wired): every row has a file path |
-| **Honesty, live** | [`/api/judges`](https://pharos-api.onrender.com/api/judges) transparency endpoint |
-| **CelesTrak is live** | [`/api/compliance/report/25544`](https://pharos-api.onrender.com/api/compliance/report/25544): live ISS data |
+| **Honesty, live** | [`/api/judges`](https://pharos-ewn9.onrender.com/api/judges) transparency endpoint |
+| **CelesTrak is live** | [`/api/compliance/report/25544`](https://pharos-ewn9.onrender.com/api/compliance/report/25544): live ISS data |
 | **It reproduces** | [Build and Run](#build-and-run): from scratch in 5 minutes |
 | **136 tests pass** | `cd backend && python -m pytest tests/ -v` |
 | **API-deletion proof** | Remove watsonx credentials: engine still produces full report |
@@ -57,12 +57,12 @@ PHAROS works without any API key. Delete every hosted API and the compliance eng
 
 | Surface | URL |
 |---|---|
-| **Live Demo (Frontend)** | https://pharos.vercel.app |
-| **Backend API** | https://pharos-api.onrender.com |
-| **API Docs (Swagger)** | https://pharos-api.onrender.com/docs |
-| **Judges Endpoint** | https://pharos-api.onrender.com/api/judges |
-| **Health Check** | https://pharos-api.onrender.com/api/health |
-| **GitHub** | https://github.com/pharos-ibm/pharos |
+| **Live Demo (Frontend)** | https://pharos-flame-nu.vercel.app |
+| **Backend API** | https://pharos-ewn9.onrender.com |
+| **API Docs (Swagger)** | https://pharos-ewn9.onrender.com/docs |
+| **Judges Endpoint** | https://pharos-ewn9.onrender.com/api/judges |
+| **Health Check** | https://pharos-ewn9.onrender.com/api/health |
+| **GitHub** | https://github.com/0xkinno/pharos |
 
 ---
 

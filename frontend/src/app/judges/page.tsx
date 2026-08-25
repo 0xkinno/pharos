@@ -254,7 +254,7 @@ export default function JudgesPage() {
                   </h2>
                 </div>
                 <a
-                  href="/api/judges"
+                  href="https://pharos-ewn9.onrender.com/api/judges"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-xs font-mono text-accent-primary hover:underline inline-flex items-center gap-1"
