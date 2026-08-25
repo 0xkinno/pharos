@@ -6,9 +6,7 @@ Generates a professional PDF compliance report using ReportLab.
 from __future__ import annotations
 
 import logging
-from datetime import datetime
 from io import BytesIO
-from typing import Optional
 
 from app.models.compliance import ComplianceReport, RuleStatus
 
@@ -17,10 +15,15 @@ logger = logging.getLogger(__name__)
 try:
     from reportlab.lib import colors
     from reportlab.lib.pagesizes import A4
-    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+    from reportlab.lib.styles import ParagraphStyle
     from reportlab.lib.units import mm
     from reportlab.platypus import (
-        SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
+        HRFlowable,
+        Paragraph,
+        SimpleDocTemplate,
+        Spacer,
+        Table,
+        TableStyle,
     )
     REPORTLAB_AVAILABLE = True
 except ImportError:
@@ -62,18 +65,15 @@ def export_to_pdf(report: ComplianceReport) -> bytes:
         bottomMargin=20 * mm,
     )
 
-    styles = getSampleStyleSheet()
     story = []
 
     # Colors
     pharos_blue = colors.HexColor("#3b82f6")
-    dark_bg = colors.HexColor("#0a0a0f")
     text_primary = colors.HexColor("#1f2937")
     muted = colors.HexColor("#6b7280")
     pass_color = colors.HexColor("#10b981")
     flag_color = colors.HexColor("#f59e0b")
     fail_color = colors.HexColor("#ef4444")
-    skip_color = colors.HexColor("#6b7280")
 
     # Custom styles
     title_style = ParagraphStyle(
@@ -137,18 +137,18 @@ def export_to_pdf(report: ComplianceReport) -> bytes:
     # Compliance score box
     score_data = [
         [
-            Paragraph(f"<b>Compliance Score</b>", body_style),
+            Paragraph("<b>Compliance Score</b>", body_style),
             Paragraph(f"<b>{report.compliance_score:.1f} / 100</b>", body_style),
         ],
         [
-            Paragraph(f"<b>Status</b>", body_style),
+            Paragraph("<b>Status</b>", body_style),
             Paragraph(
                 f"<font color='#{_color_to_hex(compliance_color)}'><b>{report.compliance_level.value.replace('_', ' ')}</b></font>",
                 body_style,
             ),
         ],
         [
-            Paragraph(f"Rules Passed / Flagged / Failed", body_style),
+            Paragraph("Rules Passed / Flagged / Failed", body_style),
             Paragraph(
                 f"{report.rules_passed} / {report.rules_flagged} / {report.rules_failed}",
                 body_style,
@@ -280,12 +280,12 @@ def _color_to_hex(color) -> str:
 def _export_plain_text_fallback(report: ComplianceReport) -> bytes:
     """Fallback: return plain text as bytes when ReportLab is unavailable."""
     lines = [
-        f"PHAROS Compliance Report",
+        "PHAROS Compliance Report",
         f"Satellite: {report.object_name} (NORAD {report.norad_cat_id})",
         f"Compliance Score: {report.compliance_score}/100 — {report.compliance_level.value}",
-        f"",
+        "",
         f"Rules: {report.rules_passed} passed, {report.rules_flagged} flagged, {report.rules_failed} failed",
-        f"",
+        "",
     ]
     for r in report.rule_results:
         if r.status.value != "SKIP":

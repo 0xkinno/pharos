@@ -3,8 +3,6 @@ Tests for the FastAPI REST API
 
 Tests all key API endpoints with mocking where necessary.
 """
-import pytest
-from unittest.mock import patch, MagicMock
 from fastapi.testclient import TestClient
 
 from app.main import app

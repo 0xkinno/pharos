@@ -17,8 +17,8 @@ from pathlib import Path
 
 from fastapi import APIRouter
 
-from app.core.config import get_settings
 from app.ai.watsonx_client import get_watsonx_client
+from app.core.config import get_settings
 
 logger = logging.getLogger(__name__)
 
@@ -193,28 +193,35 @@ async def judges_endpoint():
         },
 
         "limitations": [
-            "Orbital lifetime estimation uses a simplified King-Hele model with exponential "
-            "atmospheric density approximation. Actual lifetime may vary ±30–50% depending "
-            "on solar activity, spacecraft attitude, and atmospheric density variations. "
-            "Real high-fidelity tools (STK, GMAT) use NRLMSISE-00 and numerical integration.",
-
-            "FCC compliance checking is based on publicly available rule text "
-            "(47 CFR Part 25.114(d)(14)). Not an official FCC compliance determination.",
-
-            "Passivation, collision probability, and disposal probability assessments "
-            "require operator-provided data not available in public TLE/OMM records. "
-            "These rules are evaluated with conservative assumptions and flagged for operator review.",
-
-            "This is a compliance pre-check tool, not a certification authority. "
-            "PHAROS findings should be verified against official regulatory guidance "
-            "before filing FCC license applications or ITU coordination.",
-
-            "CelesTrak TLE data has typical accuracy of ~1 km for LEO satellites. "
-            "Orbital lifetime estimates degrade for highly eccentric orbits.",
-
-            "The ESA Zero Debris Charter (2023) and COPUOS LTS Guidelines are "
-            "not legally binding for all operators. Applicability depends on the "
-            "operator's jurisdiction and regulatory agreements.",
+            (
+                "Orbital lifetime estimation uses a simplified King-Hele model with exponential "
+                "atmospheric density approximation. Actual lifetime may vary ±30–50% depending "
+                "on solar activity, spacecraft attitude, and atmospheric density variations. "
+                "Real high-fidelity tools (STK, GMAT) use NRLMSISE-00 and numerical integration."
+            ),
+            (
+                "FCC compliance checking is based on publicly available rule text "
+                "(47 CFR Part 25.114(d)(14)). Not an official FCC compliance determination."
+            ),
+            (
+                "Passivation, collision probability, and disposal probability assessments "
+                "require operator-provided data not available in public TLE/OMM records. "
+                "These rules are evaluated with conservative assumptions and flagged for operator review."
+            ),
+            (
+                "This is a compliance pre-check tool, not a certification authority. "
+                "PHAROS findings should be verified against official regulatory guidance "
+                "before filing FCC license applications or ITU coordination."
+            ),
+            (
+                "CelesTrak TLE data has typical accuracy of ~1 km for LEO satellites. "
+                "Orbital lifetime estimates degrade for highly eccentric orbits."
+            ),
+            (
+                "The ESA Zero Debris Charter (2023) and COPUOS LTS Guidelines are "
+                "not legally binding for all operators. Applicability depends on the "
+                "operator's jurisdiction and regulatory agreements."
+            ),
         ],
 
         "test_count": "136 tests (see backend/tests/)",

@@ -1,7 +1,6 @@
 """
 Pydantic models for satellite orbital data.
 """
-from typing import Optional
 from pydantic import BaseModel, Field
 
 
@@ -40,7 +39,7 @@ class SatelliteData(BaseModel):
     object_name: str = Field(..., description="Satellite name")
     object_type: str = Field(default="PAYLOAD", description="PAYLOAD, ROCKET BODY, DEBRIS, UNKNOWN")
     classification_type: str = Field(default="U", description="U=Unclassified, C=Classified, S=Secret")
-    international_designator: Optional[str] = Field(None, description="COSPAR ID")
+    international_designator: str | None = Field(None, description="COSPAR ID")
     epoch: str = Field(..., description="TLE epoch")
     mean_motion: float = Field(..., description="Mean motion (revs per day)")
     eccentricity: float
@@ -56,7 +55,7 @@ class SatelliteData(BaseModel):
     mean_motion_dot: float = 0.0
     mean_motion_ddot: float = 0.0
     # Derived orbital elements (computed after fetch)
-    orbital_elements: Optional[OrbitalElements] = None
+    orbital_elements: OrbitalElements | None = None
 
     @property
     def is_leo(self) -> bool:
@@ -85,4 +84,4 @@ class SatelliteSearchResult(BaseModel):
     mean_motion: float
     eccentricity: float
     inclination: float
-    mean_altitude_km: Optional[float] = None
+    mean_altitude_km: float | None = None

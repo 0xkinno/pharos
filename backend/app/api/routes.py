@@ -14,26 +14,23 @@ Implements all endpoints defined in Section 6 of pharos_instruction.md:
 from __future__ import annotations
 
 import logging
-from typing import Optional
 
 from fastapi import APIRouter, HTTPException, Query, Response
 from pydantic import BaseModel
 
-from app.models.compliance import ComplianceReport, RuleStatus
-from app.models.satellite import SatelliteData, SatelliteSearchResult
-from app.services.celestrak_client import (
-    get_satellite_by_norad_id,
-    search_satellites,
-    fetch_satellite_raw,
-    _omm_to_satellite_data,
-)
-from app.services.compliance_engine import evaluate_satellite, load_rules_registry
-from app.services.report_generator import generate_compliance_report
-from app.services.rag_service import enrich_report_with_citations
 from app.ai.watsonx_client import get_watsonx_client
 from app.ai.watsonx_guardian import screen_report
 from app.exporters.json_export import export_to_json
 from app.exporters.pdf_export import export_to_pdf
+from app.models.compliance import ComplianceReport
+from app.models.satellite import SatelliteData, SatelliteSearchResult
+from app.services.celestrak_client import (
+    get_satellite_by_norad_id,
+    search_satellites,
+)
+from app.services.compliance_engine import evaluate_satellite, load_rules_registry
+from app.services.rag_service import enrich_report_with_citations
+from app.services.report_generator import generate_compliance_report
 
 logger = logging.getLogger(__name__)
 

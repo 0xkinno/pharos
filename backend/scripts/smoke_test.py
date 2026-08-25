@@ -1,13 +1,17 @@
 """Full API smoke test — python -m scripts.smoke_test"""
 import warnings
+
 warnings.filterwarnings("ignore")
 
 from app.core.config import get_settings
+
 get_settings.cache_clear()
 from app.ai.watsonx_client import get_watsonx_client
+
 get_watsonx_client.cache_clear()
 
 from fastapi.testclient import TestClient
+
 from app.main import app
 
 c = TestClient(app)

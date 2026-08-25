@@ -21,7 +21,6 @@ import json
 import logging
 import math
 from pathlib import Path
-from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +31,7 @@ _FALLBACK_CLAUSES: dict[str, str] = {}
 try:
     from sentence_transformers import SentenceTransformer
     _LOCAL_MODEL_NAME = "ibm-granite/granite-embedding-30m-english"
-    _local_model: Optional[SentenceTransformer] = None
+    _local_model: SentenceTransformer | None = None
     SENTENCE_TRANSFORMERS_AVAILABLE = True
 except ImportError:
     SENTENCE_TRANSFORMERS_AVAILABLE = False
@@ -40,7 +39,7 @@ except ImportError:
     logger.info("sentence-transformers not available; using fallback clause mapping")
 
 
-def _load_local_model() -> Optional[object]:
+def _load_local_model() -> object | None:
     """Lazily load the local sentence-transformers embedding model."""
     global _local_model
     if not SENTENCE_TRANSFORMERS_AVAILABLE:
@@ -75,7 +74,7 @@ def _cosine_similarity(a: list[float], b: list[float]) -> float:
     return dot / (norm_a * norm_b)
 
 
-def _get_query_embedding(text: str) -> Optional[list[float]]:
+def _get_query_embedding(text: str) -> list[float] | None:
     """Get embedding vector for a query string."""
     model = _load_local_model()
     if model is None:
@@ -199,7 +198,7 @@ _RULE_FALLBACK_CLAUSES: dict[str, str] = {
 }
 
 
-def retrieve_citation(rule_id: str, query: Optional[str] = None) -> dict:
+def retrieve_citation(rule_id: str, query: str | None = None) -> dict:
     """
     Retrieve the most relevant standard clause text for a given rule.
 

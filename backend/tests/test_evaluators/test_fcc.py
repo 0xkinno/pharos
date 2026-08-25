@@ -4,9 +4,8 @@ Tests for FCC Rule Evaluators
 Tests for: FCC-DEORBIT-01, FCC-DEORBIT-02, FCC-LEO-01
 At least 2 tests per rule (pass + fail case).
 """
-import pytest
+from app.evaluators import fcc
 from app.models.compliance import RuleStatus
-import app.evaluators.fcc as fcc
 
 
 class TestFCCDeorbit01:

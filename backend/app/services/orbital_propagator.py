@@ -5,15 +5,14 @@ Produces position vectors, velocity vectors, and derived orbital parameters.
 """
 from __future__ import annotations
 
-import math
 import logging
+import math
 from datetime import datetime, timezone
-from typing import Optional
 
-from sgp4.api import Satrec, WGS84
+from sgp4.api import WGS84, Satrec
 from sgp4.conveniences import jday_datetime
 
-from app.models.satellite import SatelliteData, OrbitalElements
+from app.models.satellite import OrbitalElements, SatelliteData
 
 logger = logging.getLogger(__name__)
 
@@ -25,9 +24,14 @@ MU_EARTH = 398600.4418  # km^3/s^2
 class PropagationResult:
     """Result from SGP4 propagation at a given epoch."""
     __slots__ = (
-        "success", "position_km", "velocity_km_s",
-        "altitude_km", "latitude_deg", "longitude_deg",
-        "error_code", "error_message",
+        "altitude_km",
+        "error_code",
+        "error_message",
+        "latitude_deg",
+        "longitude_deg",
+        "position_km",
+        "success",
+        "velocity_km_s",
     )
 
     def __init__(
@@ -51,7 +55,7 @@ class PropagationResult:
         self.error_message = error_message
 
 
-def build_satrec_from_satellite(sat: SatelliteData) -> Optional[Satrec]:
+def build_satrec_from_satellite(sat: SatelliteData) -> Satrec | None:
     """
     Build an sgp4.Satrec object from a SatelliteData model.
     Uses the OMM data fields directly.
@@ -97,7 +101,7 @@ def _epoch_to_jd_fraction(epoch_str: str) -> float:
     return jd + fr - 2433281.5  # Days since 1949-12-31
 
 
-def propagate_to_epoch(sat: SatelliteData, target_dt: Optional[datetime] = None) -> PropagationResult:
+def propagate_to_epoch(sat: SatelliteData, target_dt: datetime | None = None) -> PropagationResult:
     """
     Propagate a satellite to a given time (or current UTC if not specified).
 
@@ -145,7 +149,7 @@ def propagate_to_epoch(sat: SatelliteData, target_dt: Optional[datetime] = None)
     )
 
 
-def compute_orbital_elements_from_sgp4(sat: SatelliteData) -> Optional[OrbitalElements]:
+def compute_orbital_elements_from_sgp4(sat: SatelliteData) -> OrbitalElements | None:
     """
     Re-derive orbital elements using mean motion from the OMM record.
     This is essentially what's already in the OMM but validated through sgp4.

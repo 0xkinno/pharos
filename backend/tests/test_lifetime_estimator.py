@@ -3,11 +3,9 @@ Tests for Orbital Lifetime Estimator
 
 Validates the King-Hele simplified decay model against known ranges.
 """
-import pytest
-import math
 from app.services.lifetime_estimator import (
-    estimate_orbital_lifetime_years,
     estimate_lifetime_structured,
+    estimate_orbital_lifetime_years,
 )
 
 

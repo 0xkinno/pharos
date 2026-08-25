@@ -3,7 +3,6 @@ PHAROS Backend Configuration
 Loads settings from environment variables / .env file.
 """
 from functools import lru_cache
-from typing import Optional
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -17,8 +16,8 @@ class Settings(BaseSettings):
     )
 
     # IBM watsonx.ai
-    watsonx_api_key: Optional[str] = None
-    watsonx_project_id: Optional[str] = None
+    watsonx_api_key: str | None = None
+    watsonx_project_id: str | None = None
     watsonx_url: str = "https://us-south.ml.cloud.ibm.com"
 
     # Model IDs — override via env vars if your region has a different catalog

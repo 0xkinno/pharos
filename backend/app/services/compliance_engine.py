@@ -16,25 +16,29 @@ from __future__ import annotations
 import logging
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional
 
 import yaml
 
-from app.models.compliance import ComplianceReport, RuleResult, RuleStatus, ComplianceLevel
+import app.evaluators.esa_zero_debris as esa
+from app.evaluators import copuos, fcc, iadc, iso24113
+from app.models.compliance import (
+    ComplianceLevel,
+    ComplianceReport,
+    RuleResult,
+    RuleStatus,
+)
 from app.models.satellite import SatelliteData
 from app.models.standards import RuleDefinition, StandardsRegistry
 from app.services.lifetime_estimator import estimate_orbital_lifetime_years
-from app.services.orbital_propagator import classify_orbit, compute_orbital_elements_from_sgp4
-import app.evaluators.fcc as fcc
-import app.evaluators.iadc as iadc
-import app.evaluators.iso24113 as iso24113
-import app.evaluators.esa_zero_debris as esa
-import app.evaluators.copuos as copuos
+from app.services.orbital_propagator import (
+    classify_orbit,
+    compute_orbital_elements_from_sgp4,
+)
 
 logger = logging.getLogger(__name__)
 
 _REGISTRY_PATH = Path(__file__).parent.parent.parent / "rules" / "rules_registry.yaml"
-_registry_cache: Optional[StandardsRegistry] = None
+_registry_cache: StandardsRegistry | None = None
 
 
 def load_rules_registry() -> StandardsRegistry:

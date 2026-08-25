@@ -3,9 +3,8 @@ Tests for ESA Zero Debris Charter Rule Evaluators
 
 Tests for: ESA-ZD-01, ESA-ZD-02, ESA-ZD-03
 """
-import pytest
-from app.models.compliance import RuleStatus
 import app.evaluators.esa_zero_debris as esa
+from app.models.compliance import RuleStatus
 
 
 class TestESAZeroDebris01:

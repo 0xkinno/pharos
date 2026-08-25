@@ -3,8 +3,10 @@ Test US-South: granite-guardian-3-8b (now available!) + best instruct model.
 python -m scripts.test_granite_guardian
 """
 import warnings
+
 warnings.filterwarnings("ignore")
 import logging
+
 logging.basicConfig(level=logging.WARNING)
 
 from ibm_watsonx_ai import Credentials

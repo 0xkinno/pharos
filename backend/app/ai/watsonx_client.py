@@ -28,7 +28,6 @@ from __future__ import annotations
 import logging
 import time
 from functools import lru_cache
-from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -76,16 +75,16 @@ class WatsonxClient:
     def __init__(self) -> None:
         from app.core.config import get_settings
         self._settings = get_settings()
-        self._credentials: Optional[object] = None
-        self._instruct_model: Optional[object] = None
-        self._guardian_model: Optional[object] = None
-        self._instruct_model_id: Optional[str] = None
-        self._guardian_model_id: Optional[str] = None
+        self._credentials: object | None = None
+        self._instruct_model: object | None = None
+        self._guardian_model: object | None = None
+        self._instruct_model_id: str | None = None
+        self._guardian_model_id: str | None = None
         self._initialized = False
         self._last_init_attempt = 0.0
         self._init_retry_interval = 60.0
 
-    def _probe_model(self, candidates: list[str], params: dict) -> tuple[Optional[object], Optional[str]]:
+    def _probe_model(self, candidates: list[str], params: dict) -> tuple[object | None, str | None]:
         """
         Try each candidate model ID until one initialises without error.
         Returns (ModelInference instance, model_id) or (None, None).
@@ -177,16 +176,16 @@ class WatsonxClient:
         return self._initialized
 
     @property
-    def active_instruct_model(self) -> Optional[str]:
+    def active_instruct_model(self) -> str | None:
         """Return the model ID currently used for text generation."""
         return self._instruct_model_id
 
     @property
-    def active_guardian_model(self) -> Optional[str]:
+    def active_guardian_model(self) -> str | None:
         """Return the model ID currently used for safety screening."""
         return self._guardian_model_id
 
-    def _chat(self, model: object, system: str, user: str) -> Optional[str]:
+    def _chat(self, model: object, system: str, user: str) -> str | None:
         """
         Call the modern /ml/v1/text/chat endpoint via model.chat().
         Falls back to generate_text() if chat() is not available.
@@ -211,7 +210,7 @@ class WatsonxClient:
                 logger.error("Both chat() and generate_text() failed: %s", exc2)
                 return None
 
-    def generate_text(self, prompt: str, max_tokens: int = 2048) -> Optional[str]:
+    def generate_text(self, prompt: str, max_tokens: int = 2048) -> str | None:
         """
         Generate text using the best available instruct model.
         Returns None if watsonx.ai is unavailable.
@@ -229,7 +228,7 @@ class WatsonxClient:
             logger.error("Instruct generation failed (%s): %s", self._instruct_model_id, exc)
             return None
 
-    def screen_content(self, content: str) -> Optional[dict]:
+    def screen_content(self, content: str) -> dict | None:
         """
         Screen content for safety.
         Uses Granite Guardian if available, otherwise the instruct model

@@ -3,9 +3,8 @@ Tests for UN COPUOS Rule Evaluators
 
 Tests for: COPUOS-REG-01, COPUOS-COORD-01, COPUOS-NOTIF-01
 """
-import pytest
+from app.evaluators import copuos
 from app.models.compliance import RuleStatus
-import app.evaluators.copuos as copuos
 
 
 class TestCOPUOSReg01:

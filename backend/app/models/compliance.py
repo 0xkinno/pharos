@@ -1,9 +1,9 @@
 """
 Pydantic models for compliance results and reports.
 """
-from enum import Enum
-from typing import Optional, Any
 from datetime import datetime
+from enum import Enum
+from typing import Any
 
 from pydantic import BaseModel, Field
 
@@ -28,17 +28,17 @@ class RuleResult(BaseModel):
     rule_id: str = Field(..., description="e.g. FCC-DEORBIT-01")
     status: RuleStatus
     message: str = Field(..., description="Human-readable result message")
-    value: Optional[float] = Field(None, description="The measured value (e.g. lifetime in years)")
-    threshold: Optional[float] = Field(None, description="The regulatory threshold")
-    unit: Optional[str] = Field(None, description="Unit for value/threshold (e.g. 'years', 'km')")
+    value: float | None = Field(None, description="The measured value (e.g. lifetime in years)")
+    threshold: float | None = Field(None, description="The regulatory threshold")
+    unit: str | None = Field(None, description="Unit for value/threshold (e.g. 'years', 'km')")
     standard_clause: str = Field(..., description="Exact regulatory citation")
     body: str = Field(..., description="Regulatory body (FCC, IADC, ISO, ESA, COPUOS)")
     # RAG-retrieved clause text
-    retrieved_clause_text: Optional[str] = Field(
+    retrieved_clause_text: str | None = Field(
         None,
         description="Verbatim text from the standards corpus, retrieved by Granite Embedding"
     )
-    retrieved_clause_source: Optional[str] = Field(None)
+    retrieved_clause_source: str | None = Field(None)
 
 
 class ComplianceReport(BaseModel):
@@ -71,11 +71,11 @@ class ComplianceReport(BaseModel):
     rules_skipped: int = 0
 
     # AI layer outputs
-    ai_report_text: Optional[str] = Field(
+    ai_report_text: str | None = Field(
         None,
         description="Plain-language compliance report from Granite Instruct"
     )
-    ai_report_safe: Optional[bool] = Field(
+    ai_report_safe: bool | None = Field(
         None,
         description="Content safety screening result from Granite Guardian"
     )

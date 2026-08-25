@@ -4,13 +4,13 @@ Tests for the Orbital Propagator (SGP4)
 Validates SGP4 integration against known satellite parameters.
 """
 import math
-import pytest
-from app.models.satellite import SatelliteData, OrbitalElements
+
+from app.models.satellite import OrbitalElements, SatelliteData
 from app.services.orbital_propagator import (
-    compute_orbital_elements_from_sgp4,
-    classify_orbit,
-    propagate_to_epoch,
     build_satrec_from_satellite,
+    classify_orbit,
+    compute_orbital_elements_from_sgp4,
+    propagate_to_epoch,
 )
 
 

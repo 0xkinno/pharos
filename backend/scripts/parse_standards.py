@@ -18,7 +18,6 @@ The corpus is never rebuilt at request time (API-deletion-proof architecture).
 from __future__ import annotations
 
 import logging
-import sys
 from pathlib import Path
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")

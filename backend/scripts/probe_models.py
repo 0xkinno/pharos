@@ -3,11 +3,14 @@ Probe US-South watsonx.ai for available Granite models.
 python -m scripts.probe_models
 """
 import warnings
+
 warnings.filterwarnings("ignore")
 import logging
+
 logging.basicConfig(level=logging.WARNING)
 
 from app.core.config import get_settings
+
 get_settings.cache_clear()
 
 s = get_settings()

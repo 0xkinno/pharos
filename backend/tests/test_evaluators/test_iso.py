@@ -3,9 +3,8 @@ Tests for ISO 24113 Rule Evaluators
 
 Tests for: ISO-ORBIT-01, ISO-ORBIT-02, ISO-DEBRIS-01
 """
-import pytest
-from app.models.compliance import RuleStatus
 import app.evaluators.iso24113 as iso
+from app.models.compliance import RuleStatus
 
 
 class TestISOOrbit01:

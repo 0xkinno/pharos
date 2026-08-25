@@ -101,7 +101,7 @@ def check_leo_protected_region(
 def check_geo_disposal(
     altitude_km: float,
     mission_status: str = "active",
-    final_altitude_km: float = None,
+    final_altitude_km: float | None = None,
 ) -> RuleResult:
     """
     ISO-ORBIT-02: ISO 24113:2019, Section 6.2.3
@@ -112,8 +112,6 @@ def check_geo_disposal(
     of 35,786 km. Graveyard orbit must be at least 200 km above the upper
     boundary, i.e., above 35,786 + 200 + 200 = 36,186 km.
     """
-    import math
-
     is_in_geo_belt = GEO_LOWER_BOUND_KM <= altitude_km <= GEO_UPPER_BOUND_KM
 
     if not is_in_geo_belt:

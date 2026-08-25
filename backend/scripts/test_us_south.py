@@ -3,9 +3,10 @@ Test new US-South project ID for Granite model access.
 python -m scripts.test_us_south
 """
 import warnings
+
 warnings.filterwarnings("ignore")
 
-from ibm_watsonx_ai import Credentials, APIClient
+from ibm_watsonx_ai import APIClient, Credentials
 
 COMBOS = [
     (

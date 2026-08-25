@@ -9,7 +9,10 @@ from __future__ import annotations
 
 import logging
 
-from app.ai.watsonx_embedding import enrich_rule_results_with_citations, retrieve_citation
+from app.ai.watsonx_embedding import (
+    enrich_rule_results_with_citations,
+    retrieve_citation,
+)
 from app.models.compliance import RuleResult
 from app.models.standards import CitationResult
 

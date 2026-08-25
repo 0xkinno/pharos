@@ -17,16 +17,15 @@ import json
 import logging
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional
 
 from fastapi import APIRouter
 
 from app.models.compliance import (
-    ComplianceReport, ComplianceLevel, RuleResult, RuleStatus, DemoDataset, DemoSatellite
+    DemoDataset,
+    DemoSatellite,
 )
+from app.models.satellite import OrbitalElements, SatelliteData
 from app.services.compliance_engine import evaluate_satellite
-from app.services.celestrak_client import _omm_to_satellite_data
-from app.models.satellite import SatelliteData, OrbitalElements
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -41,7 +40,7 @@ def _make_mock_satellite(
     eccentricity: float,
     inclination: float,
     bstar: float = 0.0002,
-    intldes: Optional[str] = None,
+    intldes: str | None = None,
 ) -> SatelliteData:
     """Build a SatelliteData with computed orbital elements."""
     import math
@@ -209,7 +208,7 @@ def _build_demo_report(sat_def: dict) -> DemoSatellite:
     )
 
 
-_demo_dataset_cache: Optional[DemoDataset] = None
+_demo_dataset_cache: DemoDataset | None = None
 
 
 def get_demo_dataset() -> DemoDataset:

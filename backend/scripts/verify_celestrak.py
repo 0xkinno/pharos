@@ -3,7 +3,7 @@ Verify CelesTrak live data access.
 python -m scripts.verify_celestrak
 """
 import asyncio
-import sys
+
 
 async def main():
     import httpx

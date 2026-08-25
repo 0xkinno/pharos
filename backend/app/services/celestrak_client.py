@@ -5,13 +5,10 @@ No authentication required.
 """
 from __future__ import annotations
 
-import asyncio
-import json
 import logging
 import math
 import time
 from pathlib import Path
-from typing import Optional
 
 import httpx
 
@@ -27,7 +24,7 @@ _cache: dict[str, tuple[list[dict], float]] = {}
 CACHE_TTL = 3600  # 1 hour
 
 
-def _cache_key(norad_id: Optional[int] = None, group: Optional[str] = None) -> str:
+def _cache_key(norad_id: int | None = None, group: str | None = None) -> str:
     if norad_id:
         return f"norad:{norad_id}"
     if group:
@@ -35,7 +32,7 @@ def _cache_key(norad_id: Optional[int] = None, group: Optional[str] = None) -> s
     return "all"
 
 
-def _get_cached(key: str) -> Optional[list[dict]]:
+def _get_cached(key: str) -> list[dict] | None:
     if key in _cache:
         data, ts = _cache[key]
         if time.time() - ts < CACHE_TTL:
@@ -49,8 +46,8 @@ def _set_cached(key: str, data: list[dict]) -> None:
 
 
 async def fetch_satellite_raw(
-    norad_id: Optional[int] = None,
-    group: Optional[str] = None,
+    norad_id: int | None = None,
+    group: str | None = None,
     format: str = "json",
     use_cache: bool = True,
 ) -> list[dict]:
@@ -149,7 +146,7 @@ def _omm_to_satellite_data(record: dict) -> SatelliteData:
     )
 
 
-async def get_satellite_by_norad_id(norad_id: int) -> Optional[SatelliteData]:
+async def get_satellite_by_norad_id(norad_id: int) -> SatelliteData | None:
     """Fetch and parse a single satellite by NORAD catalog ID."""
     records = await fetch_satellite_raw(norad_id=norad_id)
     if not records:

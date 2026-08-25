@@ -3,6 +3,7 @@ Test Granite Guardian 3.8B full API to understand its response format.
 python -m scripts.test_guardian_format
 """
 import warnings
+
 warnings.filterwarnings("ignore")
 
 from ibm_watsonx_ai import Credentials

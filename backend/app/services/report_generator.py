@@ -14,9 +14,8 @@ report built from the compliance data without AI prose.
 from __future__ import annotations
 
 import logging
-from typing import Optional
 
-from app.models.compliance import ComplianceReport, RuleStatus, ComplianceLevel
+from app.models.compliance import ComplianceLevel, ComplianceReport, RuleStatus
 
 logger = logging.getLogger(__name__)
 
@@ -37,18 +36,18 @@ def _build_structured_fallback_report(report: ComplianceReport) -> str:
         f"PHAROS COMPLIANCE REPORT — {report.object_name} (NORAD {report.norad_cat_id})",
         f"Overall Status: {level_emoji.get(report.compliance_level, 'UNKNOWN')}",
         f"Compliance Score: {report.compliance_score:.1f}/100",
-        f"",
-        f"ORBITAL PARAMETERS",
+        "",
+        "ORBITAL PARAMETERS",
         f"  Altitude: {report.mean_altitude_km:.0f} km ({report.orbit_type})",
         f"  Perigee: {report.perigee_km:.0f} km | Apogee: {report.apogee_km:.0f} km",
         f"  Inclination: {report.inclination_deg:.2f}° | Eccentricity: {report.eccentricity:.4f}",
         f"  Estimated Orbital Lifetime: {report.estimated_orbital_lifetime_years:.1f} years",
-        f"",
-        f"RULE EVALUATION SUMMARY",
+        "",
+        "RULE EVALUATION SUMMARY",
         f"  Passed: {report.rules_passed} | Flagged: {report.rules_flagged} | "
         f"Failed: {report.rules_failed} | Skipped: {report.rules_skipped}",
-        f"",
-        f"DETAILED FINDINGS",
+        "",
+        "DETAILED FINDINGS",
     ]
 
     for result in report.rule_results:
@@ -67,9 +66,9 @@ def _build_structured_fallback_report(report: ComplianceReport) -> str:
             lines.append(f"        Value: {result.value} {result.unit} | Threshold: {result.threshold} {result.unit}")
 
     lines.extend([
-        f"",
-        f"NOTE: This report was generated without AI prose (watsonx.ai not configured).",
-        f"Rule evaluations are deterministic and reliable regardless of AI availability.",
+        "",
+        "NOTE: This report was generated without AI prose (watsonx.ai not configured).",
+        "Rule evaluations are deterministic and reliable regardless of AI availability.",
         f"Generated: {report.report_generated_at.isoformat()}",
     ])
 

@@ -6,8 +6,8 @@ against the committed standards corpus or the deterministic fallback.
 
 Mirror of AccessGate's citation verification test — citations are NEVER fabricated.
 """
-import pytest
 from pathlib import Path
+
 from app.ai.watsonx_embedding import _RULE_FALLBACK_CLAUSES, retrieve_citation
 
 

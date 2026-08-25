@@ -3,9 +3,8 @@ Tests for IADC Rule Evaluators
 
 Tests for: IADC-LIFE-01, IADC-PASS-01, IADC-COLL-01, IADC-REENTRY-01
 """
-import pytest
+from app.evaluators import iadc
 from app.models.compliance import RuleStatus
-import app.evaluators.iadc as iadc
 
 
 class TestIADCLife01:

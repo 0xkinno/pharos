@@ -1,19 +1,21 @@
 """End-to-end IBM AI test — run as: python -m scripts.test_ibm_ai"""
-import warnings
 import logging
+import warnings
 
 warnings.filterwarnings("ignore")
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
 
 from app.core.config import get_settings
+
 get_settings.cache_clear()
 from app.ai.watsonx_client import get_watsonx_client
+
 get_watsonx_client.cache_clear()
 
+from app.ai.watsonx_guardian import screen_report
 from app.models.satellite import SatelliteData
 from app.services.compliance_engine import evaluate_satellite
 from app.services.report_generator import generate_compliance_report
-from app.ai.watsonx_guardian import screen_report
 
 print("=== PHAROS End-to-End IBM AI Test ===")
 print()

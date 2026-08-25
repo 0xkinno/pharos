@@ -4,9 +4,9 @@ Tests for the Compliance Engine Orchestrator
 End-to-end tests of the compliance engine using mock satellite data.
 """
 import math
-import pytest
-from app.models.satellite import SatelliteData, OrbitalElements
+
 from app.models.compliance import ComplianceLevel, RuleStatus
+from app.models.satellite import OrbitalElements, SatelliteData
 from app.services.compliance_engine import evaluate_satellite
 
 

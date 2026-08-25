@@ -23,12 +23,9 @@ logger = logging.getLogger(__name__)
 
 def run_validation() -> bool:
     """Run all rule evaluator validation tests. Returns True if all pass."""
-    from app.models.compliance import RuleStatus
-    import app.evaluators.fcc as fcc
-    import app.evaluators.iadc as iadc
-    import app.evaluators.iso24113 as iso24113
     import app.evaluators.esa_zero_debris as esa
-    import app.evaluators.copuos as copuos
+    from app.evaluators import copuos, fcc, iadc, iso24113
+    from app.models.compliance import RuleStatus
 
     tests = []
     failures = []

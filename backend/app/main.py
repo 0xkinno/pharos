@@ -14,10 +14,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.core.config import get_settings
-from app.api.routes import router as main_router
-from app.api.judges import router as judges_router
 from app.api.demo import router as demo_router
+from app.api.judges import router as judges_router
+from app.api.routes import router as main_router
+from app.core.config import get_settings
 
 logging.basicConfig(
     level=logging.INFO,
@@ -117,7 +117,7 @@ async def root():
 @app.exception_handler(Exception)
 async def global_exception_handler(request, exc: Exception):
     """Global exception handler — never expose stack traces in production."""
-    logger.error("Unhandled exception: %s", exc, exc_info=True)
+    logger.error("Unhandled exception: %s", exc)
     return JSONResponse(
         status_code=500,
         content={

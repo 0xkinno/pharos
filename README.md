@@ -1,13 +1,8 @@
-<div align="center">
-<img src="docs/screenshots/banner.png" alt="PHAROS Banner" width="900" />
-
-![Typing SVG](https://readme-typing-svg.demolab.com?font=IBM+Plex+Sans&weight=600&size=28&pause=1200&color=3B82F6&center=true&vCenter=true&width=700&lines=Satellite+Compliance+Intelligence;16+Rules+%C2%B7+5+Regulatory+Bodies;Check+Any+Satellite+in+Seconds;API-Deletion-Proof+Engine)
-
 </div>
 
 # PHAROS
 
-**PHAROS lets satellite operators check their spacecraft against every deorbit and debris-mitigation standard that governs low Earth orbit, before regulators find violations.**
+![Typing SVG](https://readme-typing-svg.demolab.com?font=IBM+Plex+Sans&weight=600&size=28&pause=1200&color=3B82F6&center=true&vCenter=true&width=700&lines=Satellite+Compliance+Intelligence;16+Rules+%C2%B7+5+Regulatory+Bodies;Check+Any+Satellite+in+Seconds;API-Deletion-Proof+Engine)
 
 [![CI](https://img.shields.io/github/actions/workflow/status/pharos-ibm/pharos/ci.yml?branch=main&label=CI&style=flat-square)](pharos/.github/workflows/ci.yml)
 [![Tests](https://img.shields.io/badge/tests-136%20passing-brightgreen?style=flat-square)](pharos/backend/tests/)
@@ -18,6 +13,11 @@
 [![Powered by IBM watsonx](https://img.shields.io/badge/Powered%20by-IBM%20watsonx.ai-0f62fe?style=flat-square)](https://www.ibm.com/watsonx)
 
 Built for the **IBM AI Builders Challenge August 2026**, **Advance Space Exploration with AI** theme.
+
+<div align="center">
+<img src="docs/screenshots/banner.png" alt="PHAROS Banner" width="900" />
+
+**PHAROS lets satellite operators check their spacecraft against every deorbit and debris-mitigation standard that governs low Earth orbit, before regulators find violations.**
 
 > **"Over 16,000 active satellites share low Earth orbit. The FCC's 5-year deorbit rule took effect in 2024. $150,000 fines are issued for non-compliance. No open-source tool checks whether any of them comply. PHAROS does."**
 

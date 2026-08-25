@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 def check_registration(
     is_registered_with_un: bool = False,
     national_registry_registered: bool = False,
-    cospar_id: str = None,
+    cospar_id: str | None = None,
 ) -> RuleResult:
     """
     COPUOS-REG-01: UN COPUOS LTS Guideline B.1 — Registration Convention Compliance
@@ -40,7 +40,7 @@ def check_registration(
             rule_id="COPUOS-REG-01",
             status=RuleStatus.PASS,
             message=(
-                f"Satellite has UN registry entry"
+                "Satellite has UN registry entry"
                 + (f" (COSPAR ID: {cospar_id})" if has_cospar else "")
                 + ". Compliant with Registration Convention and COPUOS LTS Guideline B.1."
             ),

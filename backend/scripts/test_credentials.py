@@ -3,10 +3,10 @@ Test all credential combinations to find what works with Granite.
 python -m scripts.test_credentials
 """
 import warnings
+
 warnings.filterwarnings("ignore")
 
-from ibm_watsonx_ai import Credentials
-from ibm_watsonx_ai import APIClient
+from ibm_watsonx_ai import APIClient, Credentials
 
 # All credential combinations to test
 COMBOS = [
@@ -76,10 +76,10 @@ for label, url, key, pid in COMBOS:
         if granite:
             best_combo = (url, key, pid, label)
             best_models = granite
-            print(f"  *** GRANITE AVAILABLE — USE THIS COMBO ***")
+            print("  *** GRANITE AVAILABLE — USE THIS COMBO ***")
             break
         else:
-            print(f"  No Granite instruct models — checking all available:")
+            print("  No Granite instruct models — checking all available:")
             print(f"  {sorted(all_ids)[:10]}")
 
     except Exception as exc:

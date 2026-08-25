@@ -1,20 +1,21 @@
 """
 Pydantic models for regulatory standards and rules.
 """
-from typing import Optional, Any
+from typing import Any
+
 from pydantic import BaseModel, Field
 
 
 class RuleThreshold(BaseModel):
     """Numeric thresholds for a rule."""
-    max_years: Optional[float] = None
-    min_years: Optional[float] = None
-    max_altitude_km: Optional[float] = None
-    min_altitude_km: Optional[float] = None
-    max_casualty_risk: Optional[float] = None
-    max_probability: Optional[float] = None
-    min_disposal_probability: Optional[float] = None
-    min_graveyard_km_above_geo: Optional[float] = None
+    max_years: float | None = None
+    min_years: float | None = None
+    max_altitude_km: float | None = None
+    min_altitude_km: float | None = None
+    max_casualty_risk: float | None = None
+    max_probability: float | None = None
+    min_disposal_probability: float | None = None
+    min_graveyard_km_above_geo: float | None = None
 
 
 class RuleDefinition(BaseModel):
@@ -24,7 +25,7 @@ class RuleDefinition(BaseModel):
     body: str = Field(..., description="Regulatory body")
     title: str
     description: str
-    threshold: Optional[RuleThreshold] = None
+    threshold: RuleThreshold | None = None
     evaluator: str = Field(..., description="Python function path")
     severity: str = Field(..., description="critical, high, medium, low")
 
@@ -39,9 +40,9 @@ class StandardsCorpusChunk(BaseModel):
     id: str
     source_document: str
     standard_body: str
-    section: Optional[str] = None
+    section: str | None = None
     text: str
-    embedding: Optional[list[float]] = None  # Stored as float array
+    embedding: list[float] | None = None  # Stored as float array
 
 
 class CitationResult(BaseModel):
@@ -49,6 +50,6 @@ class CitationResult(BaseModel):
     rule_id: str
     query: str
     retrieved_chunks: list[dict[str, Any]] = Field(default_factory=list)
-    top_clause_text: Optional[str] = None
-    top_clause_source: Optional[str] = None
-    similarity_score: Optional[float] = None
+    top_clause_text: str | None = None
+    top_clause_source: str | None = None
+    similarity_score: float | None = None
