@@ -45,12 +45,20 @@ router = APIRouter(prefix="/api")
 async def health_check():
     """Liveness check."""
     from app.ai.watsonx_client import get_watsonx_client
+    from app.core.config import get_settings
     client = get_watsonx_client()
+    settings = get_settings()
     return {
         "status": "ok",
         "service": "PHAROS API",
         "version": "1.0.0",
         "watsonx_available": client.is_available(),
+        "watsonx_configured": settings.watsonx_configured,
+        "watsonx_api_key_present": bool(settings.watsonx_api_key),
+        "watsonx_project_id_present": bool(settings.watsonx_project_id),
+        "watsonx_url": settings.watsonx_url,
+        "active_instruct_model": client.active_instruct_model,
+        "active_guardian_model": client.active_guardian_model,
     }
 
 

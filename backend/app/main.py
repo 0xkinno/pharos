@@ -48,6 +48,20 @@ async def lifespan(app: FastAPI):
     logger.info("PHAROS API starting up...")
     start = time.time()
 
+    # Diagnostic: log whether each watsonx env var is present (never log values)
+    logger.info(
+        "WATSONX_API_KEY present: %s",
+        bool(settings.watsonx_api_key),
+    )
+    logger.info(
+        "WATSONX_PROJECT_ID present: %s",
+        bool(settings.watsonx_project_id),
+    )
+    logger.info(
+        "WATSONX_URL: %s",
+        settings.watsonx_url,
+    )
+
     # Warm up the watsonx.ai client (non-blocking)
     from app.ai.watsonx_client import get_watsonx_client
     client = get_watsonx_client()

@@ -24,11 +24,13 @@ _cache: dict[str, tuple[list[dict], float]] = {}
 CACHE_TTL = 3600  # 1 hour
 
 
-def _cache_key(norad_id: int | None = None, group: str | None = None) -> str:
+def _cache_key(norad_id: int | None = None, group: str | None = None, name: str | None = None) -> str:
     if norad_id:
         return f"norad:{norad_id}"
     if group:
         return f"group:{group}"
+    if name:
+        return f"name:{name.upper()}"
     return "all"
 
 
@@ -48,6 +50,7 @@ def _set_cached(key: str, data: list[dict]) -> None:
 async def fetch_satellite_raw(
     norad_id: int | None = None,
     group: str | None = None,
+    name: str | None = None,
     format: str = "json",
     use_cache: bool = True,
 ) -> list[dict]:
@@ -60,6 +63,8 @@ async def fetch_satellite_raw(
         Specific satellite NORAD catalog number.
     group : str, optional
         Group name: 'starlink', 'active', 'stations', 'cosmos-2251-debris', etc.
+    name : str, optional
+        Satellite name substring search (uses CelesTrak NAME= parameter).
     format : str
         Response format — always 'json' for machine use.
     use_cache : bool
@@ -70,7 +75,7 @@ async def fetch_satellite_raw(
     list[dict]
         List of OMM satellite records.
     """
-    key = _cache_key(norad_id=norad_id, group=group)
+    key = _cache_key(norad_id=norad_id, group=group, name=name)
 
     if use_cache:
         cached = _get_cached(key)
@@ -81,11 +86,15 @@ async def fetch_satellite_raw(
     params: dict[str, str] = {"FORMAT": format}
     if norad_id is not None:
         params["CATNR"] = str(norad_id)
+    elif name is not None:
+        params["NAME"] = name
     elif group:
         params["GROUP"] = group
 
     logger.info("Fetching CelesTrak data: %s", params)
-    async with httpx.AsyncClient(timeout=30.0, follow_redirects=True) as client:
+    # Use a longer timeout for NAME searches which can return thousands of records
+    timeout = 60.0 if name is not None else 30.0
+    async with httpx.AsyncClient(timeout=timeout, follow_redirects=True) as client:
         response = await client.get(CELESTRAK_GP_URL, params=params)
         response.raise_for_status()
         data = response.json()
@@ -156,12 +165,16 @@ async def get_satellite_by_norad_id(norad_id: int) -> SatelliteData | None:
 
 async def search_satellites(query: str, limit: int = 20) -> list[SatelliteSearchResult]:
     """
-    Search satellites by name or NORAD ID from the 'active' group.
-    Falls back to the demo set if CelesTrak is unreachable.
+    Search satellites by name or NORAD ID.
+
+    Uses CelesTrak's NAME= parameter directly for name searches, which
+    supports any satellite name (STARLINK, ISS, COSMOS, NOAA, etc.) and
+    returns live results from CelesTrak's full catalog — not a filtered
+    local cache of the small "active" group.
     """
     query = query.strip().upper()
 
-    # If query is a number, look up by NORAD ID
+    # If query is a numeric NORAD ID, look it up directly
     if query.isdigit():
         sat = await get_satellite_by_norad_id(int(query))
         if sat and sat.orbital_elements:
@@ -177,17 +190,18 @@ async def search_satellites(query: str, limit: int = 20) -> list[SatelliteSearch
             )]
         return []
 
-    # Fetch active satellites and search by name
+    # Use CelesTrak's NAME= search — queries the full catalog, not a local subset.
+    # This correctly handles STARLINK (~11k satellites), ISS, COSMOS, NOAA, etc.
+    logger.info("Searching CelesTrak NAME='%s' (limit=%d)", query, limit)
     try:
-        records = await fetch_satellite_raw(group="active")
+        records = await fetch_satellite_raw(name=query, use_cache=True)
     except Exception as exc:
-        logger.warning("CelesTrak fetch failed, returning empty: %s", exc)
+        logger.warning("CelesTrak NAME search failed for '%s': %s", query, exc)
         return []
 
     results: list[SatelliteSearchResult] = []
-    for record in records:
-        name = record.get("OBJECT_NAME", "").upper()
-        if query in name:
+    for record in records[:limit]:
+        try:
             sat = _omm_to_satellite_data(record)
             alt = sat.orbital_elements.mean_altitude_km if sat.orbital_elements else None
             results.append(SatelliteSearchResult(
@@ -200,9 +214,11 @@ async def search_satellites(query: str, limit: int = 20) -> list[SatelliteSearch
                 inclination=sat.inclination,
                 mean_altitude_km=alt,
             ))
-            if len(results) >= limit:
-                break
+        except Exception as exc:
+            logger.debug("Skipping malformed record: %s", exc)
+            continue
 
+    logger.info("CelesTrak NAME='%s' returned %d records, serving %d", query, len(records), len(results))
     return results
 
 
