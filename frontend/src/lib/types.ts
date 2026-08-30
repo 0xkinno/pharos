@@ -50,12 +50,12 @@ export interface ComplianceReport {
 export interface SatelliteSearchResult {
   norad_cat_id: number
   object_name: string
-  object_type: string
-  epoch: string
-  mean_motion: number
-  eccentricity: number
-  inclination: number
-  mean_altitude_km: number | null
+  object_type?: string
+  epoch?: string
+  mean_motion?: number
+  eccentricity?: number
+  inclination?: number
+  mean_altitude_km?: number | null
 }
 
 export interface DemoSatelliteSummary {

@@ -205,7 +205,15 @@ class WatsonxClient:
         except Exception as exc:
             logger.debug("chat() failed, trying generate_text(): %s", exc)
             try:
-                return model.generate_text(prompt=f"{system}\n\n{user}")  # type: ignore[union-attr]
+                raw = model.generate_text(prompt=f"{system}\n\n{user}")  # type: ignore[union-attr]
+                if isinstance(raw, str):
+                    return raw.strip()
+                elif isinstance(raw, dict):
+                    results = raw.get("results", [])
+                    if results and isinstance(results, list) and len(results) > 0:
+                        return results[0].get("generated_text", "").strip()
+                    return raw.get("generated_text", "").strip() or None
+                return None
             except Exception as exc2:
                 logger.error("Both chat() and generate_text() failed: %s", exc2)
                 return None

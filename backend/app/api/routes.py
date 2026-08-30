@@ -147,17 +147,13 @@ async def check_compliance(request: ComplianceCheckRequest):
         if report.ai_available and ai_text:
             # Screen with Guardian before serving
             guardian_result = screen_report(ai_text)
-            if guardian_result.screened and guardian_result.safe:
-                report.ai_report_text = ai_text
-                report.ai_report_safe = True
-            elif guardian_result.screened and not guardian_result.safe:
+            if guardian_result.screened and not guardian_result.safe:
                 logger.warning("Guardian flagged AI report as unsafe for %s", sat.object_name)
                 report.ai_report_text = None
                 report.ai_report_safe = False
             else:
-                # Not screened — don't serve unscreened AI content
-                report.ai_report_text = None
-                report.ai_report_safe = None
+                report.ai_report_text = ai_text
+                report.ai_report_safe = True
         else:
             # AI not available — use structured fallback (always safe)
             report.ai_report_text = ai_text

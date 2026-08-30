@@ -32,16 +32,56 @@ export default function DashboardPage() {
   const handleSearch = useCallback(async (query: string) => {
     setSearching(true)
     setSearchError(null)
+    const q = query.trim().toUpperCase()
     try {
       const results = await api.searchSatellites(query)
-      setSearchResults(results)
+      if (results && results.length > 0) {
+        setSearchResults(results)
+      } else if (demo?.satellites) {
+        const localMatches = demo.satellites
+          .filter(
+            (s) =>
+              s.object_name.toUpperCase().includes(q) ||
+              String(s.norad_cat_id).includes(q) ||
+              s.description.toUpperCase().includes(q)
+          )
+          .map((s) => ({
+            norad_cat_id: s.norad_cat_id,
+            object_name: s.object_name,
+            object_type: 'PAYLOAD',
+            mean_altitude_km: s.mean_altitude_km,
+          }))
+        setSearchResults(localMatches)
+      } else {
+        setSearchResults([])
+      }
     } catch (e: unknown) {
+      if (demo?.satellites) {
+        const localMatches = demo.satellites
+          .filter(
+            (s) =>
+              s.object_name.toUpperCase().includes(q) ||
+              String(s.norad_cat_id).includes(q) ||
+              s.description.toUpperCase().includes(q)
+          )
+          .map((s) => ({
+            norad_cat_id: s.norad_cat_id,
+            object_name: s.object_name,
+            object_type: 'PAYLOAD',
+            mean_altitude_km: s.mean_altitude_km,
+          }))
+        if (localMatches.length > 0) {
+          setSearchResults(localMatches)
+          setSearchError(null)
+          return
+        }
+      }
       setSearchError(e instanceof Error ? e.message : 'Search failed')
       setSearchResults([])
     } finally {
       setSearching(false)
     }
-  }, [])
+  }, [demo])
 
   const displaySatellites: DemoSatelliteSummary[] = demo?.satellites.filter((s) => {
     if (statusFilter === 'ALL') return true

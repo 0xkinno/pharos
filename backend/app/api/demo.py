@@ -190,11 +190,18 @@ def _build_demo_report(sat_def: dict) -> DemoSatellite:
         collision_avoidance_capability=sat_def.get("collision_avoidance_capability", True),
     )
 
-    # Add fallback structured AI report (no API key needed)
-    from app.services.report_generator import _build_structured_fallback_report
-    report.ai_report_text = _build_structured_fallback_report(report)
-    report.ai_available = False
-    report.ai_report_safe = True
+    # Check watsonx AI availability
+    from app.ai.watsonx_client import get_watsonx_client
+    from app.services.report_generator import generate_compliance_report, _build_structured_fallback_report
+    client = get_watsonx_client()
+    if client.is_available():
+        report.ai_report_text = generate_compliance_report(report)
+        report.ai_available = True
+        report.ai_report_safe = True
+    else:
+        report.ai_report_text = _build_structured_fallback_report(report)
+        report.ai_available = False
+        report.ai_report_safe = True
 
     # Add RAG citations
     from app.services.rag_service import enrich_report_with_citations

@@ -35,12 +35,12 @@ export default function SatelliteReportPage() {
   useEffect(() => {
     if (!noradId) return
 
-    // Try demo data first (instant), then live
-    api.getDemoSatellite(noradId)
+    // Try live compliance report first to utilize live watsonx.ai inference
+    api.getComplianceReport(noradId, true, true)
       .then(setReport)
       .catch(() => {
-        // Not in demo, fetch live compliance report
-        return api.getComplianceReport(noradId, true, true)
+        // Fallback to demo data if offline or live check fails
+        return api.getDemoSatellite(noradId)
           .then(setReport)
       })
       .catch((e: unknown) => {
