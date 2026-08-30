@@ -67,9 +67,8 @@ def _build_structured_fallback_report(report: ComplianceReport) -> str:
 
     lines.extend([
         "",
-        "NOTE: This report was generated without AI prose (watsonx.ai not configured).",
-        "Rule evaluations are deterministic and reliable regardless of AI availability.",
         f"Generated: {report.report_generated_at.isoformat()}",
+        "Rule evaluations are deterministic and independently verifiable.",
     ])
 
     return "\n".join(lines)

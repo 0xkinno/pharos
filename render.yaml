@@ -14,7 +14,7 @@ services:
       - key: ENVIRONMENT
         value: production
       - key: CORS_ORIGINS
-        value: https://pharos.vercel.app,http://localhost:3000
+        value: https://pharos-flame-nu.vercel.app,https://pharos.vercel.app,http://localhost:3000,http://localhost:3001
       - key: LOG_LEVEL
         value: INFO
     healthCheckPath: /api/health

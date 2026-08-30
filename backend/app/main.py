@@ -31,6 +31,8 @@ settings = get_settings()
 # Next.js dev server uses 3000 by default but falls back to 3001, 3002, etc.
 # if another process already owns 3000.
 _cors_origins = settings.cors_origins_list + [
+    "https://pharos-flame-nu.vercel.app",
+    "https://pharos.vercel.app",
     "http://localhost:3000",
     "http://localhost:3001",
     "http://localhost:3002",
@@ -40,6 +42,9 @@ _cors_origins = settings.cors_origins_list + [
 ]
 # deduplicate while preserving order
 _cors_origins = list(dict.fromkeys(_cors_origins))
+
+# Allow all Vercel preview deployments (*.vercel.app) via regex
+_cors_origin_regex = r"https://.*\.vercel\.app"
 
 
 @asynccontextmanager
@@ -103,6 +108,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=_cors_origins,
+    allow_origin_regex=_cors_origin_regex,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
