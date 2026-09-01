@@ -51,6 +51,7 @@ setup_video.js
 test_playwright.py
 scan_secrets.py
 test_b64.txt
+test_live_dashboard.png
 write_components.js
 write_theme.js
 
