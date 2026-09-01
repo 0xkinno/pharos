@@ -58,7 +58,7 @@ except Exception as e:
 
 print()
 
-# Test 2: Potentially unsafe text  
+# Test 2: Potentially unsafe text
 print("--- Test 2: Potentially problematic text ---")
 messages2 = [
     {

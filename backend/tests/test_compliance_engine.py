@@ -16,7 +16,7 @@ def make_satellite(
     mean_motion: float,  # rev/day (determines altitude)
     eccentricity: float = 0.0,
     inclination: float = 53.0,
-    intldes: str = None,
+    intldes: str | None = None,
 ) -> SatelliteData:
     """Factory for test SatelliteData objects."""
     MU = 398600.4418

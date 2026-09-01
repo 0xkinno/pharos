@@ -44,8 +44,8 @@ def _build_structured_fallback_report(report: ComplianceReport) -> str:
         f"  Estimated Orbital Lifetime: {report.estimated_orbital_lifetime_years:.1f} years",
         "",
         "RULE EVALUATION SUMMARY",
-        f"  Passed: {report.rules_passed} | Flagged: {report.rules_flagged} | "
-        f"Failed: {report.rules_failed} | Skipped: {report.rules_skipped}",
+        (f"  Passed: {report.rules_passed} | Flagged: {report.rules_flagged} | "
+        f"Failed: {report.rules_failed} | Skipped: {report.rules_skipped}"),
         "",
         "DETAILED FINDINGS",
     ]

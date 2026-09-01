@@ -147,7 +147,7 @@ def validate_index(chunks: list[dict]) -> None:
         logger.error("Empty index!")
         return
 
-    bodies = set(c["standard_body"] for c in chunks)
+    bodies = {c["standard_body"] for c in chunks}
     has_embeddings = sum(1 for c in chunks if c.get("embedding"))
 
     logger.info("Index validation:")

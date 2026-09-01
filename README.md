@@ -45,10 +45,10 @@ PHAROS works without any API key. Delete every hosted API and the compliance eng
 
 | To verify... | Go here |
 |---|---|
-| **Try it, zero setup** | [`/api/demo`](https://pharos-ewn9.onrender.com/api/demo): pre-computed results for 5 satellites |
+| **Try it, zero setup** | [`/api/demo`](https://pharos-backend-deployment--ojilerekingsley.replit.app/api/demo): pre-computed results for 5 satellites |
 | **Claims are wired, not aspirational** | [IBM Stack section](#ibm-stack-what-is-actually-wired): every row has a file path |
-| **Honesty, live** | [`/api/judges`](https://pharos-ewn9.onrender.com/api/judges) transparency endpoint |
-| **CelesTrak is live** | [`/api/compliance/report/25544`](https://pharos-ewn9.onrender.com/api/compliance/report/25544): live ISS data |
+| **Honesty, live** | [`/api/judges`](https://pharos-backend-deployment--ojilerekingsley.replit.app/api/judges) transparency endpoint |
+| **CelesTrak is live** | [`/api/compliance/report/25544`](https://pharos-backend-deployment--ojilerekingsley.replit.app/api/compliance/report/25544): live ISS data |
 | **It reproduces** | [Build and Run](#build-and-run): from scratch in 5 minutes |
 | **136 tests pass** | `cd backend && python -m pytest tests/ -v` |
 | **API-deletion proof** | Remove watsonx credentials: engine still produces full report |
@@ -58,25 +58,29 @@ PHAROS works without any API key. Delete every hosted API and the compliance eng
 | Surface | URL |
 |---|---|
 | **Live Demo (Frontend)** | https://pharos-flame-nu.vercel.app |
-| **Backend API** | https://pharos-ewn9.onrender.com |
-| **API Docs (Swagger)** | https://pharos-ewn9.onrender.com/docs |
-| **Judges Endpoint** | https://pharos-ewn9.onrender.com/api/judges |
-| **Health Check** | https://pharos-ewn9.onrender.com/api/health |
+| **Backend API** | https://pharos-backend-deployment--ojilerekingsley.replit.app |
+| **API Docs (Swagger)** | https://pharos-backend-deployment--ojilerekingsley.replit.app/docs |
+| **Judges Endpoint** | https://pharos-backend-deployment--ojilerekingsley.replit.app/api/judges |
+| **Health Check** | https://pharos-backend-deployment--ojilerekingsley.replit.app/api/health |
 | **GitHub** | https://github.com/0xkinno/pharos |
 
 ---
 
 ## Screenshots
 
-| Dashboard | Satellite Report |
-|---|---|
-| ![Dashboard: satellite search and compliance cards](docs/screenshots/dashboard.png) | ![Satellite Report: rule-by-rule results with citations](docs/screenshots/report.png) |
+<div align="center">
 
-| Standards Explorer | Judges Transparency |
-|---|---|
-| ![Standards Explorer: all 16 rules across 5 bodies](docs/screenshots/standards.png) | ![/judges: full IBM stack disclosure](docs/screenshots/judges.png) |
+| **1. Real-Time Compliance Dashboard** | **2. Rule Audit & AI Assessment** |
+|:---:|:---:|
+| <img src="docs/screenshots/dashboard.png" alt="PHAROS Dashboard" width="440" /> | <img src="docs/screenshots/report.png" alt="Satellite Compliance Report" width="440" /> |
 
-> Screenshots taken from the live deployment. Run locally with `npm run dev` to see the interface.
+| **3. Multi-Agency Standards Explorer** | **4. Judges Transparency & Evidence** |
+|:---:|:---:|
+| <img src="docs/screenshots/standards.png" alt="Standards Explorer" width="440" /> | <img src="docs/screenshots/judges.png" alt="Judges Disclosure Matrix" width="440" /> |
+
+</div>
+
+> Verified on live production deployment. Run locally with `npm run dev` to interact with the real-time interface.
 
 ---
 

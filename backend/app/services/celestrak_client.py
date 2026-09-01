@@ -355,7 +355,7 @@ async def get_satellite_by_norad_id(norad_id: int) -> SatelliteData | None:
 async def search_satellites(query: str, limit: int = 20) -> list[SatelliteSearchResult]:
     """
     High-Availability Multi-Strategy Satellite Search.
-    
+
     1. Instantly queries the built-in catalog for matching names or NORAD IDs.
     2. In parallel/subsequently queries CelesTrak with strict timeout.
     3. Merges and deduplicates results so searches ALWAYS return rich data.

@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 from fastapi import APIRouter
@@ -192,7 +192,10 @@ def _build_demo_report(sat_def: dict) -> DemoSatellite:
 
     # Check watsonx AI availability
     from app.ai.watsonx_client import get_watsonx_client
-    from app.services.report_generator import generate_compliance_report, _build_structured_fallback_report
+    from app.services.report_generator import (
+        _build_structured_fallback_report,
+        generate_compliance_report,
+    )
     client = get_watsonx_client()
     if client.is_available():
         report.ai_report_text = generate_compliance_report(report)
@@ -243,7 +246,7 @@ def get_demo_dataset() -> DemoDataset:
     non_compliant_count = sum(1 for s in satellites if s.compliance_report.compliance_level.value == "NON_COMPLIANT")
 
     _demo_dataset_cache = DemoDataset(
-        generated_at=datetime.now(timezone.utc),
+        generated_at=datetime.now(UTC),
         satellites=satellites,
         summary={
             "total_satellites": len(satellites),

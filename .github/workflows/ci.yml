@@ -59,7 +59,7 @@ jobs:
         run: pip install ruff
 
       - name: Lint
-        run: ruff check app/ tests/ scripts/ --ignore E501,BLE001,TRY004,DTZ003,RUF013,F841,SIM102,C401,PLW1510,ISC004
+        run: ruff check app/ tests/ scripts/
 
   frontend-build:
     name: Frontend Build & Typecheck

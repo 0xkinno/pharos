@@ -97,7 +97,7 @@ class TestOrbitalElementsComputation:
         MU = 398600.4418
         mean_motion_geo = 1.0027
         n_rad_s = mean_motion_geo * 2 * math.pi / 86400.0
-        a_km = (MU / (n_rad_s ** 2)) ** (1.0 / 3.0)
+        (MU / (n_rad_s ** 2)) ** (1.0 / 3.0)
 
         geo_sat = SatelliteData(
             norad_cat_id=26824,
@@ -142,6 +142,6 @@ class TestSGP4Propagation:
     def test_satrec_builds_without_error(self):
         """Satrec construction should not raise for valid OMM data."""
         sat = make_iss_like_satellite()
-        satrec = build_satrec_from_satellite(sat)
+        build_satrec_from_satellite(sat)
         # Satrec may be None if epoch parsing fails, but should not raise
         # The function handles errors internally

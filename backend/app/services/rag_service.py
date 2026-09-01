@@ -19,7 +19,7 @@ from app.models.standards import CitationResult
 logger = logging.getLogger(__name__)
 
 
-def get_citation_for_rule(rule_id: str, context: str = None) -> CitationResult:
+def get_citation_for_rule(rule_id: str, context: str | None = None) -> CitationResult:
     """
     Get the most relevant standard clause for a rule ID.
 

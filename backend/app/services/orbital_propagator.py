@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import logging
 import math
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from sgp4.api import WGS84, Satrec
 from sgp4.conveniences import jday_datetime
@@ -93,7 +93,7 @@ def _epoch_to_jd_fraction(epoch_str: str) -> float:
         dt = datetime.fromisoformat(epoch_str.replace("Z", "+00:00"))
     except ValueError:
         # Try alternate TLE epoch format
-        dt = datetime.utcnow().replace(tzinfo=timezone.utc)
+        dt = datetime.now(UTC)
 
     # sgp4 uses epoch in Julian days since 1949-12-31 00:00 UTC
     # Reference: JD of 1949-12-31 00:00 UTC = 2433281.5
@@ -108,7 +108,7 @@ def propagate_to_epoch(sat: SatelliteData, target_dt: datetime | None = None) ->
     Returns position (km, TEME frame) and velocity (km/s, TEME frame).
     """
     if target_dt is None:
-        target_dt = datetime.now(timezone.utc)
+        target_dt = datetime.now(UTC)
 
     satrec = build_satrec_from_satellite(sat)
     if satrec is None:

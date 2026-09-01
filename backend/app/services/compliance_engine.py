@@ -14,7 +14,7 @@ pass/fail/flag results even with no internet connection and no API keys.
 from __future__ import annotations
 
 import logging
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import yaml
@@ -288,7 +288,7 @@ def evaluate_satellite(
         norad_cat_id=sat.norad_cat_id,
         object_name=sat.object_name,
         epoch=sat.epoch,
-        report_generated_at=datetime.now(timezone.utc),
+        report_generated_at=datetime.now(UTC),
         mean_altitude_km=round(mean_altitude, 2),
         perigee_km=round(perigee, 2),
         apogee_km=round(apogee, 2),

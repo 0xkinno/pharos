@@ -93,7 +93,6 @@ def _get_density_at_altitude(altitude_km: float, solar_activity: str) -> float:
         return 0.0  # Negligible drag above 2000 km
 
     if altitude_km <= _DENSITY_TABLE[0][0]:
-        idx = 1  # Use moderate value at first entry
         if solar_activity == "low":
             return _DENSITY_TABLE[0][1]
         elif solar_activity == "high":

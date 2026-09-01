@@ -1,0 +1,30 @@
+# Ruff configuration for PHAROS backend
+target-version = "py311"
+line-length = 120
+
+[lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+]
+ignore = [
+    "E501",   # line too long
+    "B008",   # FastAPI Depends default argument
+    "B904",   # raise ... from err
+    "B905",   # zip without strict
+    "C401",   # unnecessary generator in set
+    "C408",   # unnecessary dict/list/tuple call
+    "UP007",  # Use X | Y for type annotations
+    "UP006",  # Use type instead of Type
+    "UP042",  # StrEnum
+    "E741",   # ambiguous variable name
+]
+
+[lint.per-file-ignores]
+"tests/*" = ["F401", "F841", "B018", "E402"]
+"scripts/*" = ["E402", "F401", "B007", "F841"]
